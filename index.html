@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAFÉ VIBRA | 2025</title>
+
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'], // Fuente futurista
+                    },
+                    colors: {
+                        brand: {
+                            DEFAULT: '#FF5E1A', // Neon Orange
+                            dark: '#CC4000',
+                            light: '#FF8552'
+                        },
+                        surface: {
+                            50: '#18181b', // Zinc 900
+                            100: '#27272a', // Zinc 800
+                            200: '#3f3f46', // Zinc 700
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        glow: {
+                            'from': { boxShadow: '0 0 10px -5px #FF5E1A' },
+                            'to': { boxShadow: '0 0 20px 5px #FF5E1A' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Fonts: Syne (Futurista) & Outfit (Geométrica) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Syne:wght@400;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Base URL for local API -->
+    <script>
+        const API_BASE_URL = 'http://localhost:3000/api';
+    </script>
+
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #09090b;
+            /* Zinc 950 - Deep Black */
+            color: #f4f4f5;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        .font-display {
+            font-family: 'Syne', sans-serif;
+        }
+
+        /* Modern Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #09090b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #3f3f46;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF5E1A;
+        }
+
+        /* Glassmorphism 2025 */
+        .glass {
+            background: rgba(24, 24, 27, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-strong {
+            background: rgba(9, 9, 11, 0.85);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-brand-gradient {
+            background: linear-gradient(135deg, #FF5E1A 0%, #FF9E7A 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Utilities */
+        .noise-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 50;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+
+<body>
+    <div class="noise-bg"></div>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // --- Iconos Minimalistas (Lucide style) ---
+        const Icons = {
+            Coffee: ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1" /><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" /><line x1="6" x2="6" y1="2" y2="4" /><line x1="10" x2="10" y1="2" y2="4" /><line x1="14" x2="14" y1="2" y2="4" /></svg>,
+            Utensils: ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" /><path d="M7 2v20" /><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" /></svg>,
+            IceCream: ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="m7 11 4.08 10.35a1 1 0 0 0 1.84 0L17 11" /><path d="M17 7A5 5 0 0 0 7 7" /><path d="M17 7a2 2 0 0 1 0 4H7a2 2 0 0 1 0-4" /></svg>,
+            Snowflake: ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="2" x2="22" y1="12" y2="12" /><line x1="12" x2="12" y1="2" y2="22" /><path d="m20 16-4-4 4-4" /><path d="m4 8 4 4-4 4" /><path d="m16 4-4 4-4-4" /><path d="m8 20 4-4 4 4" /></svg>,
+            Settings: ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" /><circle cx="12" cy="12" r="3" /></svg>,
+            Plus: ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="M12 5v14" /></svg>,
+            Trash: ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /></svg>,
+            Edit: ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" /></svg>,
+            X: ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>,
+            ShoppingBag: ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" /><path d="M3 6h18" /><path d="M16 10a4 4 0 0 1-8 0" /></svg>,
+            ArrowRight: ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+        };
+
+        // --- Configuración ---
+        const CATEGORIES = [
+            { id: 'hot', name: 'Calientes', icon: <Icons.Coffee className="w-5 h-5" /> },
+            { id: 'cold', name: 'Fríos', icon: <Icons.Snowflake className="w-5 h-5" /> },
+            { id: 'food', name: 'Bocados', icon: <Icons.Utensils className="w-5 h-5" /> },
+            { id: 'dessert', name: 'Dulces', icon: <Icons.IceCream className="w-5 h-5" /> },
+        ];
+
+        const INITIAL_PRODUCTS = [
+            { name: "Espresso Nitro", price: 55, category: "hot", description: "Infusión intensa con micro-burbujas de nitrógeno.", image: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80" },
+            { name: "Vibra Cappuccino", price: 70, category: "hot", description: "Espuma densa, arte latte y polvo de cacao.", image: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=600&q=80" },
+            { name: "Iced Matcha 2.0", price: 85, category: "cold", description: "Matcha ceremonial grado A con leche de avena.", image: "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=600&q=80" },
+            { name: "Avocado Toast", price: 130, category: "food", description: "Pan masa madre, aguacate hass, semillas.", image: "https://images.unsplash.com/photo-1588137372308-15f75323ca8d?auto=format&fit=crop&w=600&q=80" },
+            { name: "Berry Tart", price: 95, category: "dessert", description: "Base de almendra y frutos del bosque frescos.", image: "https://images.unsplash.com/photo-1519915093150-5d85d952af52?auto=format&fit=crop&w=600&q=80" },
+        ];
+
+        const AdminPIN = "1234";
+
+        // --- Componentes UI 2025 ---
+
+        const Modal = ({ isOpen, onClose, children, title }) => {
+            if (!isOpen) return null;
+            return (
+                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
+                    <div className="bg-surface-100 border border-white/10 rounded-[2rem] w-full max-w-md p-8 shadow-2xl shadow-brand/10 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-brand/20 blur-[50px] rounded-full -mr-10 -mt-10"></div>
+                        <div className="flex justify-between items-center mb-6 relative z-10">
+                            <h3 className="text-2xl font-bold font-display text-white">{title}</h3>
+                            <button onClick={onClose} className="text-zinc-400 hover:text-white transition-colors bg-zinc-800/50 p-2 rounded-full">
+                                <Icons.X className="w-5 h-5" />
+                            </button>
+                        </div>
+                        <div className="relative z-10">
+                            {children}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const ProductCard = ({ product, isAdmin, onEdit, onDelete, onAddToCart }) => (
+            <div className="group relative bg-surface-100/50 backdrop-blur-sm rounded-[2rem] border border-white/5 hover:border-brand/30 transition-all duration-500 hover:-translate-y-2 overflow-hidden h-full flex flex-col">
+                {/* Image Container */}
+                <div className="relative h-64 overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-t from-surface-50 to-transparent opacity-60 z-10"></div>
+                    <img
+                        src={product.image_url || product.image || 'https://placehold.co/600x600/18181b/FFF?text=VIBRA'}
+                        alt={product.name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                        onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/600x400/18181b/FFF?text=VIBRA' }}
+                    />
+                    <div className="absolute top-4 right-4 z-20">
+                        <span className="bg-black/70 backdrop-blur-md text-white px-4 py-1.5 rounded-full text-sm font-bold border border-white/10">
+                            ${product.sale_price || product.price}
+                        </span>
+                    </div>
+                    {isAdmin && (
+                        <div className="absolute top-4 left-4 z-20 flex gap-2">
+                            <button onClick={() => onEdit(product)} className="p-2 bg-black/50 backdrop-blur-md text-white hover:bg-brand hover:text-white rounded-full border border-white/10 transition-colors"><Icons.Edit className="w-4 h-4" /></button>
+                            <button onClick={() => onDelete(product.id)} className="p-2 bg-black/50 backdrop-blur-md text-red-400 hover:bg-red-500 hover:text-white rounded-full border border-white/10 transition-colors"><Icons.Trash className="w-4 h-4" /></button>
+                        </div>
+                    )}
+                </div>
+
+                {/* Content */}
+                <div className="p-6 flex flex-col flex-grow relative z-10">
+                    <h3 className="font-display font-bold text-2xl text-white mb-2 leading-tight group-hover:text-brand transition-colors">{product.name}</h3>
+                    <p className="text-zinc-400 text-sm leading-relaxed mb-6 flex-grow line-clamp-2">{product.description}</p>
+
+                    {!isAdmin && (
+                        <button
+                            onClick={() => onAddToCart(product)}
+                            className="w-full mt-auto bg-white text-black py-4 rounded-xl font-bold text-sm hover:bg-brand hover:text-white transition-all flex items-center justify-center gap-2 group-active:scale-95"
+                        >
+                            <Icons.Plus className="w-4 h-4" /> AGREGAR
+                        </button>
+                    )}
+                </div>
+            </div>
+        );
+
+        const CategoryPill = ({ category, isActive, onClick }) => (
+            <button
+                onClick={onClick}
+                className={`relative px-6 py-3 rounded-full flex items-center gap-2 transition-all duration-300 font-medium text-sm tracking-wide border ${isActive
+                    ? 'bg-brand text-white border-brand shadow-[0_0_20px_-5px_#FF5E1A]'
+                    : 'bg-surface-100/50 text-zinc-400 border-white/5 hover:bg-surface-200 hover:text-white'
+                    }`}
+            >
+                {category.icon}
+                <span>{category.name}</span>
+            </button>
+        );
+
+        // --- Main App Component ---
+
+        const App = () => {
+            const [products, setProducts] = React.useState([]);
+            const [loading, setLoading] = React.useState(true);
+            const [activeCategory, setActiveCategory] = React.useState('hot');
+            const [view, setView] = React.useState('home');
+            const [isAdmin, setIsAdmin] = React.useState(false);
+            const [pinInput, setPinInput] = React.useState('');
+            const [showPinModal, setShowPinModal] = React.useState(false);
+            const [cart, setCart] = React.useState([]);
+            const [showCart, setShowCart] = React.useState(false);
+
+            const [editingProduct, setEditingProduct] = React.useState(null);
+            const [formData, setFormData] = React.useState({ name: '', sale_price: '', category: 'hot', description: '', image_url: '', code: '' });
+            const [showFormModal, setShowFormModal] = React.useState(false);
+
+            const fetchProducts = async () => {
+                setLoading(true);
+                try {
+                    const res = await fetch(`${API_BASE_URL}/products`);
+                    const data = await res.json();
+                    setProducts(data);
+                } catch (err) {
+                    console.error('Error fetching products:', err);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            React.useEffect(() => {
+                fetchProducts();
+            }, []);
+
+            const handleLogin = () => {
+                if (pinInput === AdminPIN) {
+                    setIsAdmin(true); setView('admin'); setShowPinModal(false); setPinInput('');
+                } else {
+                    alert("PIN incorrecto. Intenta con 1234");
+                }
+            };
+
+            const handleSaveProduct = async (e) => {
+                e.preventDefault();
+                const method = editingProduct ? 'PUT' : 'POST';
+                const url = editingProduct ? `${API_BASE_URL}/products/${editingProduct.id}` : `${API_BASE_URL}/products`;
+
+                // Ensure code is present for new products
+                const payload = {
+                    ...formData,
+                    sale_price: Number(formData.sale_price),
+                    purchase_price: Number(formData.sale_price) * 0.7, // Estimate purchase price if not provided
+                    code: formData.code || `COF-${Date.now()}`
+                };
+
+                try {
+                    const res = await fetch(url, {
+                        method,
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (res.ok) {
+                        setShowFormModal(false);
+                        resetForm();
+                        fetchProducts();
+                    }
+                } catch (err) {
+                    console.error('Error saving product:', err);
+                }
+            };
+
+            const handleDelete = async (id) => {
+                if (!confirm("¿Eliminar?")) return;
+                try {
+                    const res = await fetch(`${API_BASE_URL}/products/${id}`, { method: 'DELETE' });
+                    if (res.ok) fetchProducts();
+                } catch (err) {
+                    console.error('Error deleting product:', err);
+                }
+            };
+
+            const openEdit = (product) => {
+                setEditingProduct(product);
+                setFormData({
+                    name: product.name,
+                    sale_price: product.sale_price || product.price,
+                    category: product.category,
+                    description: product.description,
+                    image_url: product.image_url || product.image,
+                    code: product.code
+                });
+                setShowFormModal(true);
+            };
+            const openCreate = () => { setEditingProduct(null); resetForm(); setShowFormModal(true); };
+            const resetForm = () => { setFormData({ name: '', sale_price: '', category: 'hot', description: '', image_url: '', code: '' }); };
+            const addToCart = (product) => { setCart(prev => [...prev, product]); setShowCart(true); };
+            const removeFromCart = (index) => { setCart(prev => prev.filter((_, i) => i !== index)); };
+            const cartTotal = cart.reduce((sum, item) => sum + (item.sale_price || item.price), 0);
+
+            const handleCheckout = async () => {
+                if (cart.length === 0) return;
+
+                const saleData = {
+                    customer_id: null, // Cafeteria sales are usually anonymous
+                    date: new Date().toISOString().split('T')[0],
+                    total: cartTotal,
+                    items: cart.map(item => ({
+                        product_id: item.id,
+                        quantity: 1,
+                        price: item.sale_price || item.price
+                    }))
+                };
+
+                try {
+                    const res = await fetch(`${API_BASE_URL}/sales`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(saleData)
+                    });
+                    if (res.ok) {
+                        alert('¡Venta realizada con éxito!');
+                        setCart([]);
+                        setShowCart(false);
+                        fetchProducts(); // Refresh stock if backend handles it
+                    } else {
+                        const err = await res.json();
+                        alert(`Error en la venta: ${err.error}`);
+                    }
+                } catch (err) {
+                    console.error('Error during checkout:', err);
+                }
+            };
+
+            const filteredProducts = products.filter(p => p.category === activeCategory);
+
+            return (
+                <div className="min-h-screen pb-24 font-sans text-zinc-100 selection:bg-brand selection:text-white">
+
+                    {/* Floating Navbar */}
+                    <nav className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
+                        <div className="glass rounded-full px-6 py-3 flex items-center justify-between gap-8 shadow-2xl shadow-black/50 max-w-2xl w-full">
+                            <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setView('home')}>
+                                <div className="bg-white text-black p-2 rounded-full group-hover:scale-110 transition-transform">
+                                    <Icons.Coffee className="w-5 h-5" />
+                                </div>
+                                <span className="font-display font-bold text-lg tracking-wider">VIBRA</span>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => setShowCart(true)}
+                                    className="relative p-3 hover:bg-white/10 rounded-full transition-colors group"
+                                >
+                                    <Icons.ShoppingBag className="w-5 h-5 text-zinc-300 group-hover:text-brand transition-colors" />
+                                    {cart.length > 0 && (
+                                        <span className="absolute top-1 right-1 bg-brand w-4 h-4 text-[10px] font-bold flex items-center justify-center rounded-full">
+                                            {cart.length}
+                                        </span>
+                                    )}
+                                </button>
+
+                                <div className="w-px h-6 bg-white/10 mx-1"></div>
+
+                                {isAdmin ? (
+                                    <button onClick={() => { setIsAdmin(false); setView('home'); }} className="text-xs font-bold text-red-400 hover:text-red-300 px-3 py-1 border border-red-400/30 rounded-full">
+                                        EXIT
+                                    </button>
+                                ) : (
+                                    <button onClick={() => setShowPinModal(true)} className="p-3 hover:bg-white/10 rounded-full transition-colors text-zinc-400 hover:text-white">
+                                        <Icons.Settings className="w-5 h-5" />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    </nav>
+
+                    {view === 'home' ? (
+                        <>
+                            {/* Hero Ultra-Moderno */}
+                            <header className="relative min-h-[80vh] flex items-center justify-center overflow-hidden pt-20">
+                                {/* Background Elements */}
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand/20 rounded-full blur-[120px] opacity-40 animate-pulse"></div>
+                                <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[100px] opacity-30"></div>
+
+                                <div className="relative z-10 max-w-5xl mx-auto px-4 text-center">
+                                    <span className="inline-block py-1 px-3 rounded-full bg-white/5 border border-white/10 text-brand text-xs font-bold tracking-[0.2em] mb-8 backdrop-blur-md animate-fade-in">
+                                        EST. 2025
+                                    </span>
+                                    <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-black leading-[0.9] tracking-tighter mb-8 text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-600">
+                                        FUTURE<br /><span className="text-brand-gradient">COFFEE</span>
+                                    </h1>
+                                    <p className="text-zinc-400 text-lg md:text-xl max-w-2xl mx-auto font-light mb-12 leading-relaxed">
+                                        Redefiniendo la experiencia de la cafeína.
+                                        <br />Sabores de vanguardia en un espacio atemporal.
+                                    </p>
+                                    <button
+                                        onClick={() => document.getElementById('menu').scrollIntoView({ behavior: 'smooth' })}
+                                        className="group relative inline-flex items-center gap-3 px-8 py-4 bg-white text-black rounded-full font-bold tracking-wide hover:bg-brand hover:text-white transition-all duration-300"
+                                    >
+                                        <span>EXPLORAR MENÚ</span>
+                                        <Icons.ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                    </button>
+                                </div>
+                            </header>
+
+                            {/* Menu Grid */}
+                            <section id="menu" className="max-w-7xl mx-auto px-4 py-20">
+                                <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6 border-b border-white/5 pb-8">
+                                    <div>
+                                        <h2 className="text-4xl font-display font-bold mb-2">Selección</h2>
+                                        <p className="text-zinc-500">Curada meticulosamente para ti.</p>
+                                    </div>
+
+                                    {/* Scrollable Categories */}
+                                    <div className="flex gap-3 overflow-x-auto pb-2 w-full md:w-auto no-scrollbar">
+                                        {CATEGORIES.map(cat => (
+                                            <CategoryPill
+                                                key={cat.id}
+                                                category={cat}
+                                                isActive={activeCategory === cat.id}
+                                                onClick={() => setActiveCategory(cat.id)}
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {loading ? (
+                                    <div className="flex justify-center py-32">
+                                        <div className="w-12 h-12 border-4 border-brand/30 border-t-brand rounded-full animate-spin"></div>
+                                    </div>
+                                ) : filteredProducts.length === 0 ? (
+                                    <div className="text-center py-20 border border-dashed border-white/10 rounded-3xl">
+                                        <p className="text-zinc-500 mb-4">Categoría vacía.</p>
+                                    </div>
+                                ) : (
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                        {filteredProducts.map(product => (
+                                            <ProductCard
+                                                key={product.id}
+                                                product={product}
+                                                isAdmin={isAdmin}
+                                                onAddToCart={addToCart}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
+                            </section>
+                        </>
+                    ) : (
+                        /* Admin Dashboard View */
+                        <div className="max-w-7xl mx-auto px-4 pt-32 pb-12">
+                            <div className="flex justify-between items-center mb-12">
+                                <div>
+                                    <h2 className="text-4xl font-display font-bold text-white">Dashboard</h2>
+                                    <p className="text-zinc-500 mt-1">Control total del sistema.</p>
+                                </div>
+                                <button
+                                    onClick={openCreate}
+                                    className="bg-brand text-white px-6 py-3 rounded-full font-bold flex items-center gap-2 hover:bg-brand-light transition-colors shadow-[0_0_20px_-5px_#FF5E1A]"
+                                >
+                                    <Icons.Plus className="w-5 h-5" /> CREAR
+                                </button>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                {products.map(product => (
+                                    <ProductCard
+                                        key={product.id}
+                                        product={product}
+                                        isAdmin={true}
+                                        onEdit={openEdit}
+                                        onDelete={handleDelete}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Modern Cart Drawer */}
+                    <div className={`fixed inset-y-0 right-0 w-full md:w-[450px] bg-surface-50 border-l border-white/10 z-[100] transform transition-transform duration-500 ease-in-out shadow-2xl ${showCart ? 'translate-x-0' : 'translate-x-full'}`}>
+                        <div className="h-full flex flex-col p-6">
+                            <div className="flex justify-between items-center mb-8 pb-6 border-b border-white/5">
+                                <h2 className="text-3xl font-display font-bold">Tu Orden</h2>
+                                <button onClick={() => setShowCart(false)} className="p-2 hover:bg-white/5 rounded-full"><Icons.X className="w-6 h-6" /></button>
+                            </div>
+
+                            <div className="flex-grow overflow-y-auto space-y-4 pr-2">
+                                {cart.length === 0 ? (
+                                    <div className="h-full flex flex-col items-center justify-center text-zinc-600 opacity-50">
+                                        <Icons.ShoppingBag className="w-16 h-16 mb-4" />
+                                        <p>Carrito vacío</p>
+                                    </div>
+                                ) : (
+                                    cart.map((item, idx) => (
+                                        <div key={idx} className="flex gap-4 p-4 bg-surface-100/50 rounded-2xl border border-white/5 animate-in slide-in-from-right-4 duration-300">
+                                            <img src={item.image_url || item.image} className="w-16 h-16 object-cover rounded-xl bg-surface-200" alt="" />
+                                            <div className="flex-grow">
+                                                <div className="flex justify-between items-start">
+                                                    <h4 className="font-bold text-white">{item.name}</h4>
+                                                    <span className="text-brand text-sm font-bold">${item.sale_price || item.price}</span>
+                                                </div>
+                                                <button onClick={() => removeFromCart(idx)} className="text-zinc-500 text-xs hover:text-red-400 mt-2 flex items-center gap-1">
+                                                    <Icons.Trash className="w-3 h-3" /> REMOVER
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+
+                            <div className="pt-6 border-t border-white/5 mt-4 bg-surface-50">
+                                <div className="flex justify-between items-center mb-6 text-2xl font-display font-bold">
+                                    <span>Total</span>
+                                    <span className="text-brand">${cartTotal}</span>
+                                </div>
+                                <button
+                                    onClick={handleCheckout}
+                                    disabled={cart.length === 0}
+                                    className="w-full py-4 bg-white text-black rounded-xl font-bold hover:bg-brand hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    CHECKOUT
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Overlay for cart */}
+                    {showCart && <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90]" onClick={() => setShowCart(false)}></div>}
+
+                    {/* Modals */}
+                    <Modal isOpen={showPinModal} onClose={() => setShowPinModal(false)} title="Acceso Admin">
+                        <input
+                            type="password"
+                            value={pinInput}
+                            onChange={(e) => setPinInput(e.target.value)}
+                            className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-4 text-center text-2xl tracking-[1em] text-white focus:border-brand focus:ring-1 focus:ring-brand outline-none transition-all placeholder-zinc-700"
+                            placeholder="••••"
+                            maxLength={4}
+                        />
+                        <button onClick={handleLogin} className="w-full mt-6 bg-brand hover:bg-brand-light text-white font-bold py-4 rounded-xl transition-all">
+                            ACCEDER
+                        </button>
+                    </Modal>
+
+                    <Modal isOpen={showFormModal} onClose={() => setShowFormModal(false)} title={editingProduct ? 'Editar' : 'Nuevo Item'}>
+                        <form onSubmit={handleSaveProduct} className="space-y-5">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-xs text-zinc-400 mb-1 ml-1 uppercase tracking-wider">Código</label>
+                                    <input required value={formData.code} onChange={e => setFormData({ ...formData, code: e.target.value })} className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-brand outline-none" placeholder="COD-123" />
+                                </div>
+                                <div>
+                                    <label className="block text-xs text-zinc-400 mb-1 ml-1 uppercase tracking-wider">Nombre</label>
+                                    <input required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-brand outline-none" />
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-xs text-zinc-400 mb-1 ml-1 uppercase tracking-wider">Precio Venta</label>
+                                    <input required type="number" value={formData.sale_price} onChange={e => setFormData({ ...formData, sale_price: e.target.value })} className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-brand outline-none" />
+                                </div>
+                                <div>
+                                    <label className="block text-xs text-zinc-400 mb-1 ml-1 uppercase tracking-wider">Categoría</label>
+                                    <select value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })} className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-brand outline-none appearance-none">
+                                        <option value="hot">Calientes</option>
+                                        <option value="cold">Fríos</option>
+                                        <option value="food">Bocados</option>
+                                        <option value="dessert">Dulces</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-xs text-zinc-400 mb-1 ml-1 uppercase tracking-wider">Descripción</label>
+                                <textarea required value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-brand outline-none h-24 resize-none" />
+                            </div>
+                            <div>
+                                <label className="block text-xs text-zinc-400 mb-1 ml-1 uppercase tracking-wider">Imagen URL</label>
+                                <input value={formData.image_url} onChange={e => setFormData({ ...formData, image_url: e.target.value })} className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-brand outline-none" placeholder="https://..." />
+                            </div>
+                            <button type="submit" className="w-full bg-white text-black hover:bg-brand hover:text-white font-bold py-4 rounded-xl transition-all mt-4">
+                                GUARDAR
+                            </button>
+                        </form>
+                    </Modal>
+
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+
+</html>
