@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARCÓN Construcciones | Calidad, Precisión y Experiencia</title>
+  <meta name="description" content="Empresa líder en construcción residencial, comercial e industrial. Remodelaciones, diseño arquitectónico, obra civil y más. Solicita tu cotización hoy." />
+  <meta name="keywords" content="construcción, remodelaciones, obra civil, diseño arquitectónico, construcción residencial, construcción comercial" />
+  <meta property="og:title" content="ARCÓN Construcciones | Calidad y Precisión" />
+  <meta property="og:description" content="Construimos el futuro con calidad y precisión. Proyectos residenciales, comerciales e industriales." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Bebas Neue', 'sans-serif'],
+            body: ['DM Sans', 'sans-serif'],
+            mono: ['Space Mono', 'monospace'],
+          },
+          colors: {
+            carbon: { 950: '#0a0a0a', 900: '#111111', 800: '#1a1a1a', 700: '#242424', 600: '#2e2e2e' },
+            steel: { 400: '#9ca8b4', 300: '#b8c4cc', 200: '#d4dde4', 100: '#edf1f4' },
+            amber: { 500: '#f59e0b', 400: '#fbbf24', 600: '#d97706' },
+            slate: { 500: '#64748b' },
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --c-bg:       #0d0d0d;
+      --c-surface:  #161616;
+      --c-border:   #2a2a2a;
+      --c-muted:    #3d3d3d;
+      --c-text:     #e8e4df;
+      --c-sub:      #8a8680;
+      --c-accent:   #f0a500;
+      --c-accent2:  #e85d26;
+      --c-steel:    #3d5a70;
+      --font-d:     'Bebas Neue', sans-serif;
+      --font-b:     'DM Sans', sans-serif;
+      --font-m:     'Space Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-b);
+      background: var(--c-bg);
+      color: var(--c-text);
+      overflow-x: hidden;
+    }
+
+    /* ── GRAIN OVERLAY ─────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.4;
+    }
+
+    /* ── SCROLLBAR ─────────────────────── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--c-bg); }
+    ::-webkit-scrollbar-thumb { background: var(--c-accent); border-radius: 2px; }
+
+    /* ── NAVBAR ────────────────────────── */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      transition: background 0.4s, box-shadow 0.4s;
+    }
+    #navbar.scrolled {
+      background: rgba(13, 13, 13, 0.97);
+      box-shadow: 0 1px 0 var(--c-border);
+      backdrop-filter: blur(12px);
+    }
+
+    /* ── HERO ──────────────────────────── */
+    .hero-bg {
+      background: linear-gradient(135deg, #0d0d0d 0%, #111820 40%, #0d0d0d 100%);
+      position: relative; overflow: hidden;
+    }
+    .hero-grid {
+      background-image:
+        linear-gradient(var(--c-border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--c-border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.35;
+    }
+    .hero-glow {
+      background: radial-gradient(ellipse 70% 50% at 50% 60%, rgba(240,165,0,.12), transparent 70%);
+    }
+    .hero-accent-line {
+      width: 3px; background: var(--c-accent);
+      animation: lineGrow 1.2s cubic-bezier(.77,0,.18,1) forwards;
+      transform-origin: top;
+    }
+    @keyframes lineGrow { from { height: 0; } to { height: 100%; } }
+
+    .hero-badge {
+      font-family: var(--font-m);
+      font-size: .65rem;
+      letter-spacing: .2em;
+      color: var(--c-accent);
+      background: rgba(240,165,0,.1);
+      border: 1px solid rgba(240,165,0,.25);
+      padding: .35rem .9rem;
+      display: inline-block;
+    }
+
+    .hero-title {
+      font-family: var(--font-d);
+      line-height: .93;
+      letter-spacing: .02em;
+    }
+    .hero-title span { color: var(--c-accent); }
+
+    /* ── SECTION LABEL ─────────────────── */
+    .section-label {
+      font-family: var(--font-m);
+      font-size: .6rem;
+      letter-spacing: .25em;
+      color: var(--c-accent);
+      text-transform: uppercase;
+      display: flex; align-items: center; gap: .6rem;
+    }
+    .section-label::before {
+      content: '';
+      display: block; width: 24px; height: 1px;
+      background: var(--c-accent);
+    }
+
+    /* ── CTA BUTTON ────────────────────── */
+    .btn-primary {
+      font-family: var(--font-m);
+      font-size: .75rem;
+      letter-spacing: .15em;
+      background: var(--c-accent);
+      color: #000;
+      padding: .85rem 2rem;
+      display: inline-flex; align-items: center; gap: .5rem;
+      transition: background .25s, transform .2s, box-shadow .25s;
+      text-decoration: none;
+      position: relative; overflow: hidden;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+    .btn-primary::after {
+      content: ''; position: absolute; inset: 0;
+      background: rgba(255,255,255,.15); transform: translateX(-100%);
+      transition: transform .4s ease;
+    }
+    .btn-primary:hover::after { transform: translateX(0); }
+    .btn-primary:hover { box-shadow: 0 0 30px rgba(240,165,0,.4); transform: translateY(-1px); }
+
+    .btn-secondary {
+      font-family: var(--font-m);
+      font-size: .75rem;
+      letter-spacing: .15em;
+      color: var(--c-text);
+      padding: .85rem 2rem;
+      display: inline-flex; align-items: center; gap: .5rem;
+      border: 1px solid var(--c-border);
+      transition: border-color .25s, color .25s;
+      text-decoration: none;
+    }
+    .btn-secondary:hover { border-color: var(--c-accent); color: var(--c-accent); }
+
+    /* ── STAT CARD ─────────────────────── */
+    .stat-card {
+      border-left: 3px solid var(--c-accent);
+      padding-left: 1.2rem;
+    }
+    .stat-num {
+      font-family: var(--font-d);
+      font-size: 3.5rem;
+      line-height: 1;
+      color: var(--c-accent);
+    }
+
+    /* ── SERVICE CARD ──────────────────── */
+    .service-card {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      padding: 1.8rem 1.5rem;
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+      position: relative; overflow: hidden;
+      cursor: default;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: var(--c-accent);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .35s ease;
+    }
+    .service-card:hover { border-color: var(--c-muted); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,.5); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-icon {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(240,165,0,.1);
+      border: 1px solid rgba(240,165,0,.2);
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+
+    /* ── WHY CARD ──────────────────────── */
+    .why-card {
+      padding: 1.5rem;
+      border: 1px solid var(--c-border);
+      display: flex; gap: 1rem; align-items: flex-start;
+      transition: border-color .25s;
+    }
+    .why-card:hover { border-color: var(--c-accent); }
+    .why-num {
+      font-family: var(--font-d);
+      font-size: 2.5rem; color: rgba(240,165,0,.2);
+      line-height: 1; flex-shrink: 0; width: 2rem;
+    }
+
+    /* ── PROCESS STEP ──────────────────── */
+    .process-step {
+      position: relative;
+    }
+    .step-circle {
+      width: 48px; height: 48px;
+      border: 2px solid var(--c-accent);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-m);
+      font-size: .75rem;
+      color: var(--c-accent);
+      flex-shrink: 0;
+      background: var(--c-bg);
+      position: relative; z-index: 1;
+    }
+    .step-line {
+      position: absolute; left: 24px; top: 48px;
+      width: 2px; height: calc(100% + 2rem);
+      background: linear-gradient(var(--c-border), transparent);
+    }
+
+    /* ── TESTIMONIAL ───────────────────── */
+    .testimonial-card {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      padding: 2rem;
+      position: relative;
+    }
+    .testimonial-card::before {
+      content: '"';
+      font-family: var(--font-d);
+      font-size: 6rem;
+      color: var(--c-accent);
+      opacity: .15;
+      position: absolute; top: -1rem; left: 1.5rem;
+      line-height: 1;
+    }
+
+    /* ── DIVIDER ───────────────────────── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--c-border) 30%, var(--c-border) 70%, transparent);
+    }
+
+    /* ── SECTION ───────────────────────── */
+    section { position: relative; z-index: 1; }
+
+    /* ── FORM ──────────────────────────── */
+    .form-input {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      color: var(--c-text);
+      padding: .75rem 1rem;
+      font-family: var(--font-b);
+      font-size: .9rem;
+      width: 100%;
+      outline: none;
+      transition: border-color .25s;
+    }
+    .form-input::placeholder { color: var(--c-sub); }
+    .form-input:focus { border-color: var(--c-accent); }
+
+    /* ── NAV LINK ──────────────────────── */
+    .nav-link {
+      font-family: var(--font-m);
+      font-size: .65rem;
+      letter-spacing: .15em;
+      color: var(--c-sub);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color .2s;
+    }
+    .nav-link:hover { color: var(--c-accent); }
+
+    /* ── MARQUEE ───────────────────────── */
+    .marquee-wrap { overflow: hidden; white-space: nowrap; }
+    .marquee-inner { display: inline-block; animation: marquee 30s linear infinite; }
+    .marquee-inner:hover { animation-play-state: paused; }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* ── FADE IN (scroll) ──────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── MOBILE NAV ────────────────────── */
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: flex; }
+
+    /* ── COUNTER ─────────────────────────*/
+    .counter-num { display: inline-block; }
+
+    /* ── HIGHLIGHT TEXT ─────────────────── */
+    .text-accent { color: var(--c-accent); }
+    .border-accent { border-color: var(--c-accent) !important; }
+
+    @media (max-width: 768px) {
+      .hero-title { font-size: clamp(3.5rem, 15vw, 7rem); }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════ -->
+<nav id="navbar" aria-label="Navegación principal">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+
+    <!-- Logo -->
+    <a href="#inicio" class="flex items-center gap-3" aria-label="ARCÓN Construcciones inicio">
+      <div class="w-8 h-8 bg-amber-500 flex items-center justify-center" style="clip-path:polygon(0 0,100% 0,100% 75%,75% 100%,0 100%);">
+        <span class="font-display text-black text-sm leading-none">A</span>
+      </div>
+      <span class="font-display text-2xl tracking-widest" style="color:var(--c-text)">ARCÓN</span>
+    </a>
+
+    <!-- Desktop Links -->
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#nosotros"  class="nav-link">Nosotros</a>
+      <a href="#servicios" class="nav-link">Servicios</a>
+      <a href="#proyectos" class="nav-link">Proyectos</a>
+      <a href="#proceso"   class="nav-link">Proceso</a>
+      <a href="#contacto"  class="nav-link">Contacto</a>
+    </div>
+
+    <!-- CTA Desktop -->
+    <a href="#contacto" class="hidden md:inline-flex btn-primary" aria-label="Solicitar cotización">
+      Cotizar ahora
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+
+    <!-- Hamburger -->
+    <button id="hamburger" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Abrir menú" aria-expanded="false">
+      <span class="ham-line block w-6 h-0.5 bg-current transition-all"></span>
+      <span class="ham-line block w-6 h-0.5 bg-current transition-all"></span>
+      <span class="ham-line block w-4 h-0.5 bg-current transition-all"></span>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="md:hidden flex-col px-6 pb-6 gap-4 border-t" style="border-color:var(--c-border);background:rgba(13,13,13,.98);">
+    <a href="#nosotros"  class="nav-link py-2 block">Nosotros</a>
+    <a href="#servicios" class="nav-link py-2 block">Servicios</a>
+    <a href="#proyectos" class="nav-link py-2 block">Proyectos</a>
+    <a href="#proceso"   class="nav-link py-2 block">Proceso</a>
+    <a href="#contacto"  class="nav-link py-2 block">Contacto</a>
+    <a href="#contacto"  class="btn-primary mt-2 text-center justify-center">Cotizar ahora</a>
+  </div>
+</nav>
+
+
+<!-- ════════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<section id="inicio" class="hero-bg min-h-screen flex flex-col justify-center" style="padding-top:80px;">
+  <!-- Background layers -->
+  <div class="hero-grid absolute inset-0 pointer-events-none"></div>
+  <div class="hero-glow absolute inset-0 pointer-events-none"></div>
+
+  <!-- Decorative verticals -->
+  <div class="absolute right-24 top-0 bottom-0 flex gap-6 pointer-events-none overflow-hidden opacity-30 hidden lg:flex">
+    <div class="hero-accent-line" style="height:65%;margin-top:10%"></div>
+    <div class="hero-accent-line" style="height:40%;margin-top:30%;background:var(--c-muted)"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 w-full py-20 relative z-10">
+    <div class="max-w-3xl">
+
+      <!-- Badge -->
+      <div class="hero-badge mb-6" aria-label="Empresa certificada">
+        ▲ &nbsp;Empresa certificada · +20 años de experiencia
+      </div>
+
+      <!-- Title -->
+      <h1 class="hero-title text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] mb-6 leading-none">
+        CONSTRUIMOS EL<br/>
+        <span>FUTURO.</span>
+      </h1>
+
+      <!-- Subtext -->
+      <p class="text-lg md:text-xl max-w-xl mb-8 leading-relaxed" style="color:var(--c-sub)">
+        Proyectos residenciales, comerciales e industriales ejecutados con precisión técnica, materiales de primera y un equipo comprometido con cada detalle.
+      </p>
+
+      <!-- CTAs -->
+      <div class="flex flex-wrap gap-4 mb-16">
+        <a href="#contacto" class="btn-primary">
+          Solicita tu cotización
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#servicios" class="btn-secondary">
+          Ver servicios
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+        </a>
+      </div>
+
+      <!-- Stats row -->
+      <div class="flex flex-wrap gap-10">
+        <div class="stat-card">
+          <div class="stat-num counter-num" data-target="320">0</div>
+          <div class="text-xs font-mono tracking-widest mt-1" style="color:var(--c-sub)">PROYECTOS ENTREGADOS</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num counter-num" data-target="20">0</div>
+          <div class="text-xs font-mono tracking-widest mt-1" style="color:var(--c-sub)">AÑOS DE EXPERIENCIA</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num counter-num" data-target="98">0</div>
+          <div class="text-xs font-mono tracking-widest mt-1" style="color:var(--c-sub)">% CLIENTES SATISFECHOS</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40" aria-hidden="true">
+    <span class="font-mono text-xs tracking-widest" style="color:var(--c-sub)">SCROLL</span>
+    <div class="w-px h-12" style="background:linear-gradient(var(--c-sub),transparent)"></div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     MARQUEE BAND
+════════════════════════════════════════ -->
+<div class="py-3 border-y overflow-hidden" style="background:var(--c-accent);border-color:var(--c-accent)" aria-hidden="true">
+  <div class="marquee-wrap">
+    <div class="marquee-inner text-black font-mono text-xs tracking-widest">
+      <span class="mx-8">CONSTRUCCIÓN RESIDENCIAL</span><span class="mx-2 opacity-40">◆</span>
+      <span class="mx-8">OBRA CIVIL</span><span class="mx-2 opacity-40">◆</span>
+      <span class="mx-8">DISEÑO ARQUITECTÓNICO</span><span class="mx-2 opacity-40">◆</span>
+      <span class="mx-8">REMODELACIONES</span><span class="mx-2 opacity-40">◆</span>
+      <span class="mx-8">INSTALACIONES ELÉCTRICAS</span><span class="mx-2 opacity-40">◆</span>
+      <span class="mx-8">LLAVE EN MANO</span><span class="mx-2 opacity-40">◆</span>
+      <span class="mx-8">SUPERVISIÓN DE PROYECTOS</span><span class="mx-2 opacity-40">◆</span>
+      <!-- duplicate for seamless loop -->
+      <span class="mx-8">CONSTRUCCIÓN RESIDENCIAL</span><span class="mx-2 opacity-40">◆</span>
+      <span class="mx-8">OBRA CIVIL</span><span class="mx-2 opacity-40">◆</span>
+      <span class="mx-8">DISEÑO ARQUITECTÓNICO</span><span class="mx-2 opacity-40">◆</span>
+      <span class="mx-8">REMODELACIONES</span><span class="mx-2 opacity-40">◆</span>
+      <span class="mx-8">INSTALACIONES ELÉCTRICAS</span><span class="mx-2 opacity-40">◆</span>
+      <span class="mx-8">LLAVE EN MANO</span><span class="mx-2 opacity-40">◆</span>
+      <span class="mx-8">SUPERVISIÓN DE PROYECTOS</span><span class="mx-2 opacity-40">◆</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     SOBRE NOSOTROS
+════════════════════════════════════════ -->
+<section id="nosotros" class="py-28 max-w-7xl mx-auto px-6">
+  <div class="grid lg:grid-cols-2 gap-20 items-center">
+
+    <!-- Left: Text -->
+    <div class="reveal">
+      <div class="section-label mb-6">Sobre nosotros</div>
+      <h2 class="font-display text-5xl sm:text-6xl mb-6 leading-tight">
+        Más de dos décadas<br/>construyendo <span class="text-accent">confianza</span>.
+      </h2>
+      <p class="text-base leading-relaxed mb-6" style="color:var(--c-sub)">
+        En ARCÓN Construcciones combinamos ingeniería de precisión con visión arquitectónica para convertir cada proyecto en una obra que supera expectativas. Desde cimientos hasta acabados finales, somos tu socio integral de construcción.
+      </p>
+      <p class="text-base leading-relaxed mb-10" style="color:var(--c-sub)">
+        Trabajamos con certificaciones vigentes, personal altamente capacitado y procesos estandarizados que garantizan calidad, seguridad y cumplimiento de plazos en cada etapa.
+      </p>
+
+      <!-- Values grid -->
+      <div class="grid grid-cols-2 gap-4">
+        <div class="flex items-center gap-3 py-3 border-b" style="border-color:var(--c-border)">
+          <span class="text-accent text-xl">◈</span>
+          <span class="text-sm font-medium">Calidad garantizada</span>
+        </div>
+        <div class="flex items-center gap-3 py-3 border-b" style="border-color:var(--c-border)">
+          <span class="text-accent text-xl">◈</span>
+          <span class="text-sm font-medium">Seguridad certificada</span>
+        </div>
+        <div class="flex items-center gap-3 py-3 border-b" style="border-color:var(--c-border)">
+          <span class="text-accent text-xl">◈</span>
+          <span class="text-sm font-medium">Entregas a tiempo</span>
+        </div>
+        <div class="flex items-center gap-3 py-3 border-b" style="border-color:var(--c-border)">
+          <span class="text-accent text-xl">◈</span>
+          <span class="text-sm font-medium">Equipo certificado</span>
+        </div>
+        <div class="flex items-center gap-3 py-3">
+          <span class="text-accent text-xl">◈</span>
+          <span class="text-sm font-medium">Transparencia total</span>
+        </div>
+        <div class="flex items-center gap-3 py-3">
+          <span class="text-accent text-xl">◈</span>
+          <span class="text-sm font-medium">Sostenibilidad</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Visual -->
+    <div class="reveal relative">
+      <!-- Abstract construction visual -->
+      <div class="relative" style="aspect-ratio:1/1.1">
+        <!-- Main block -->
+        <div class="absolute inset-0 rounded-none" style="background:var(--c-surface);border:1px solid var(--c-border);"></div>
+
+        <!-- Inner content: abstract blueprint -->
+        <svg class="absolute inset-4" viewBox="0 0 400 440" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Esquema arquitectónico abstracto">
+          <!-- Grid lines -->
+          <line x1="0" y1="110" x2="400" y2="110" stroke="#2a2a2a" stroke-width="1"/>
+          <line x1="0" y1="220" x2="400" y2="220" stroke="#2a2a2a" stroke-width="1"/>
+          <line x1="0" y1="330" x2="400" y2="330" stroke="#2a2a2a" stroke-width="1"/>
+          <line x1="100" y1="0" x2="100" y2="440" stroke="#2a2a2a" stroke-width="1"/>
+          <line x1="200" y1="0" x2="200" y2="440" stroke="#2a2a2a" stroke-width="1"/>
+          <line x1="300" y1="0" x2="300" y2="440" stroke="#2a2a2a" stroke-width="1"/>
+
+          <!-- Building outline -->
+          <rect x="60" y="80" width="280" height="280" stroke="#3d5a70" stroke-width="1.5" fill="none"/>
+          <!-- Floors -->
+          <line x1="60" y1="173" x2="340" y2="173" stroke="#3d5a70" stroke-width="1"/>
+          <line x1="60" y1="266" x2="340" y2="266" stroke="#3d5a70" stroke-width="1"/>
+          <!-- Center vertical -->
+          <line x1="200" y1="80" x2="200" y2="360" stroke="#3d5a70" stroke-width="1"/>
+          <!-- Roof shape -->
+          <polyline points="40,80 200,20 360,80" stroke="#f0a500" stroke-width="2" fill="none"/>
+          <!-- Door -->
+          <rect x="170" y="300" width="60" height="60" stroke="#f0a500" stroke-width="1.5" fill="rgba(240,165,0,.05)"/>
+          <!-- Windows -->
+          <rect x="80" y="105"  width="50" height="45" stroke="#8a8680" stroke-width="1" fill="rgba(61,90,112,.2)"/>
+          <rect x="270" y="105" width="50" height="45" stroke="#8a8680" stroke-width="1" fill="rgba(61,90,112,.2)"/>
+          <rect x="80" y="195"  width="50" height="45" stroke="#8a8680" stroke-width="1" fill="rgba(61,90,112,.2)"/>
+          <rect x="270" y="195" width="50" height="45" stroke="#8a8680" stroke-width="1" fill="rgba(61,90,112,.2)"/>
+          <!-- Measurement lines -->
+          <line x1="20" y1="80" x2="20" y2="360" stroke="#f0a500" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="15" y1="80" x2="25" y2="80" stroke="#f0a500" stroke-width="1"/>
+          <line x1="15" y1="360" x2="25" y2="360" stroke="#f0a500" stroke-width="1"/>
+          <text x="10" y="225" fill="#f0a500" font-size="10" font-family="Space Mono" transform="rotate(-90,10,225)" text-anchor="middle">12.5 m</text>
+
+          <line x1="60" y1="400" x2="340" y2="400" stroke="#f0a500" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="60" y1="395" x2="60" y2="405" stroke="#f0a500" stroke-width="1"/>
+          <line x1="340" y1="395" x2="340" y2="405" stroke="#f0a500" stroke-width="1"/>
+          <text x="200" y="420" fill="#f0a500" font-size="10" font-family="Space Mono" text-anchor="middle">18.0 m</text>
+
+          <!-- Label -->
+          <text x="20" y="30" fill="#8a8680" font-size="9" font-family="Space Mono">PLANO — FACHADA PRINCIPAL</text>
+          <text x="20" y="44" fill="#f0a500" font-size="9" font-family="Space Mono">ARCÓN / 2024</text>
+        </svg>
+
+        <!-- Corner accents -->
+        <div class="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2" style="border-color:var(--c-accent)"></div>
+        <div class="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2" style="border-color:var(--c-accent)"></div>
+        <div class="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2" style="border-color:var(--c-accent)"></div>
+        <div class="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2" style="border-color:var(--c-accent)"></div>
+      </div>
+
+      <!-- Floating badge -->
+      <div class="absolute -bottom-6 -right-6 hidden sm:block p-5" style="background:var(--c-accent)">
+        <div class="font-display text-4xl text-black leading-none">20+</div>
+        <div class="font-mono text-xs text-black tracking-wider mt-1">AÑOS</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="divider max-w-7xl mx-auto"></div>
+
+
+<!-- ════════════════════════════════════════
+     SERVICIOS
+════════════════════════════════════════ -->
+<section id="servicios" class="py-28">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-16 reveal">
+      <div>
+        <div class="section-label mb-4">Nuestros servicios</div>
+        <h2 class="font-display text-5xl sm:text-6xl leading-tight">
+          Soluciones integrales<br/>para cada proyecto.
+        </h2>
+      </div>
+      <p class="max-w-sm text-sm leading-relaxed" style="color:var(--c-sub)">
+        Cubrimos todas las etapas de tu proyecto, desde la concepción hasta la entrega final, con la misma exigencia en cada fase.
+      </p>
+    </div>
+
+    <!-- Services Grid -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+
+      <!-- Each card -->
+      <div class="service-card reveal">
+        <div class="service-icon" aria-hidden="true">🏠</div>
+        <h3 class="font-display text-xl mb-2 tracking-wide">Construcción Residencial</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Casas habitación, fraccionamientos y desarrollos unifamiliares con diseño personalizado y acabados de calidad.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon" aria-hidden="true">🏢</div>
+        <h3 class="font-display text-xl mb-2 tracking-wide">Construcción Comercial</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Locales, oficinas, centros comerciales y naves industriales. Espacios funcionales que potencian tu negocio.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon" aria-hidden="true">🏭</div>
+        <h3 class="font-display text-xl mb-2 tracking-wide">Construcción Industrial</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Plantas, bodegas y complejos industriales con estructuras robustas, eficientes y normativamente conformes.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon" aria-hidden="true">🔨</div>
+        <h3 class="font-display text-xl mb-2 tracking-wide">Remodelaciones</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Transformamos espacios existentes con ampliaciones, reestructuraciones y renovaciones integrales.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon" aria-hidden="true">📐</div>
+        <h3 class="font-display text-xl mb-2 tracking-wide">Diseño Arquitectónico</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Proyectos ejecutivos, renders y planos arquitectónicos que equilibran funcionalidad y estética.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon" aria-hidden="true">🏗️</div>
+        <h3 class="font-display text-xl mb-2 tracking-wide">Obra Civil</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Cimentaciones, estructuras de concreto, pavimentación, banquetas y obras de urbanización.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon" aria-hidden="true">🔧</div>
+        <h3 class="font-display text-xl mb-2 tracking-wide">Mantenimiento</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Programas preventivos y correctivos para edificios, conjuntos habitacionales e instalaciones industriales.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon" aria-hidden="true">⚡</div>
+        <h3 class="font-display text-xl mb-2 tracking-wide">Instalaciones Eléctricas</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Proyectos eléctricos de baja, media y alta tensión con materiales certificados y personal especializado.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon" aria-hidden="true">💧</div>
+        <h3 class="font-display text-xl mb-2 tracking-wide">Instalaciones Hidráulicas</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Sistemas de agua potable, drenaje, pluviales y sanitarios diseñados con eficiencia y durabilidad.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon" aria-hidden="true">🪟</div>
+        <h3 class="font-display text-xl mb-2 tracking-wide">Acabados</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Obra negra, obra gris y obra blanca. Pisos, aplanados, pintura, carpintería y herrería fina.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon" aria-hidden="true">📊</div>
+        <h3 class="font-display text-xl mb-2 tracking-wide">Supervisión de Obra</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Gestión técnica y administrativa del proyecto: control de calidad, avances, costos y coordinación de contratistas.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon" aria-hidden="true">🗝️</div>
+        <h3 class="font-display text-xl mb-2 tracking-wide">Llave en Mano</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Nos hacemos cargo de todo. Diseño, permisos, construcción y entrega. Tú decides, nosotros ejecutamos.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     POR QUÉ ELEGIRNOS
+════════════════════════════════════════ -->
+<section id="diferenciadores" class="py-28" style="background:var(--c-surface)">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="reveal mb-16">
+      <div class="section-label mb-4">¿Por qué elegirnos?</div>
+      <h2 class="font-display text-5xl sm:text-6xl max-w-xl leading-tight">
+        Lo que nos hace <span class="text-accent">diferentes.</span>
+      </h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+      <div class="why-card reveal">
+        <div class="why-num">01</div>
+        <div>
+          <h3 class="font-display text-xl mb-1 tracking-wide">Experiencia comprobada</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--c-sub)">+320 proyectos entregados en sector residencial, comercial e industrial durante más de 20 años de trayectoria.</p>
+        </div>
+      </div>
+
+      <div class="why-card reveal">
+        <div class="why-num">02</div>
+        <div>
+          <h3 class="font-display text-xl mb-1 tracking-wide">Personal certificado</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Ingenieros, arquitectos y técnicos con cédulas profesionales vigentes y capacitación continua en normas NOM.</p>
+        </div>
+      </div>
+
+      <div class="why-card reveal">
+        <div class="why-num">03</div>
+        <div>
+          <h3 class="font-display text-xl mb-1 tracking-wide">Plazos y presupuesto</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Cumplimos fechas y costos acordados. Transparencia total en cada etapa con reportes de avance semanales.</p>
+        </div>
+      </div>
+
+      <div class="why-card reveal">
+        <div class="why-num">04</div>
+        <div>
+          <h3 class="font-display text-xl mb-1 tracking-wide">Materiales de primera</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Proveedores certificados, materiales con garantía y control de calidad en recepción e instalación de insumos.</p>
+        </div>
+      </div>
+
+      <div class="why-card reveal">
+        <div class="why-num">05</div>
+        <div>
+          <h3 class="font-display text-xl mb-1 tracking-wide">Seguridad e higiene</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Protocolos STPS en todas nuestras obras. Cero accidentes fatales en nuestro historial operativo.</p>
+        </div>
+      </div>
+
+      <div class="why-card reveal">
+        <div class="why-num">06</div>
+        <div>
+          <h3 class="font-display text-xl mb-1 tracking-wide">Atención personalizada</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Cada cliente tiene un residente asignado y comunicación directa. Tus dudas resueltas en menos de 24 horas.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     PROYECTOS / ESTADÍSTICAS
+════════════════════════════════════════ -->
+<section id="proyectos" class="py-28 max-w-7xl mx-auto px-6">
+
+  <div class="reveal mb-16">
+    <div class="section-label mb-4">Nuestra experiencia</div>
+    <h2 class="font-display text-5xl sm:text-6xl max-w-2xl leading-tight">
+      Números que respaldan nuestra trayectoria.
+    </h2>
+  </div>
+
+  <!-- Big stats -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-px mb-1" style="background:var(--c-border)">
+    <div class="p-8 text-center reveal" style="background:var(--c-bg)">
+      <div class="font-display text-6xl sm:text-7xl text-accent counter-num" data-target="320">0</div>
+      <div class="font-mono text-xs tracking-widest mt-2" style="color:var(--c-sub)">PROYECTOS<br/>COMPLETADOS</div>
+    </div>
+    <div class="p-8 text-center reveal" style="background:var(--c-bg)">
+      <div class="font-display text-6xl sm:text-7xl text-accent counter-num" data-target="280">0</div>
+      <div class="font-mono text-xs tracking-widest mt-2" style="color:var(--c-sub)">CLIENTES<br/>SATISFECHOS</div>
+    </div>
+    <div class="p-8 text-center reveal" style="background:var(--c-bg)">
+      <div class="font-display text-6xl sm:text-7xl text-accent counter-num" data-target="20">0</div>
+      <div class="font-mono text-xs tracking-widest mt-2" style="color:var(--c-sub)">AÑOS DE<br/>TRAYECTORIA</div>
+    </div>
+    <div class="p-8 text-center reveal" style="background:var(--c-bg)">
+      <div class="font-display text-6xl sm:text-7xl text-accent"><span class="counter-num" data-target="98">0</span>%</div>
+      <div class="font-mono text-xs tracking-widest mt-2" style="color:var(--c-sub)">ÍNDICE DE<br/>SATISFACCIÓN</div>
+    </div>
+  </div>
+
+  <!-- Sector tags -->
+  <div class="flex flex-wrap gap-3 mt-10 reveal">
+    <span class="font-mono text-xs tracking-wider px-4 py-2 border" style="border-color:var(--c-border);color:var(--c-sub)">SECTOR RESIDENCIAL</span>
+    <span class="font-mono text-xs tracking-wider px-4 py-2 border" style="border-color:var(--c-border);color:var(--c-sub)">SECTOR COMERCIAL</span>
+    <span class="font-mono text-xs tracking-wider px-4 py-2 border" style="border-color:var(--c-border);color:var(--c-sub)">SECTOR INDUSTRIAL</span>
+    <span class="font-mono text-xs tracking-wider px-4 py-2 border" style="border-color:var(--c-border);color:var(--c-sub)">OBRA CIVIL</span>
+    <span class="font-mono text-xs tracking-wider px-4 py-2 border text-accent" style="border-color:rgba(240,165,0,.4)">+ 3 ESTADOS DE LA REPÚBLICA</span>
+  </div>
+
+</section>
+
+
+<div class="divider max-w-7xl mx-auto"></div>
+
+
+<!-- ════════════════════════════════════════
+     PROCESO DE TRABAJO
+════════════════════════════════════════ -->
+<section id="proceso" class="py-28 max-w-7xl mx-auto px-6">
+
+  <div class="reveal mb-16">
+    <div class="section-label mb-4">Cómo trabajamos</div>
+    <h2 class="font-display text-5xl sm:text-6xl max-w-xl leading-tight">
+      Tu proyecto, paso<br/>a paso.
+    </h2>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-x-20 gap-y-0">
+
+    <!-- Left steps -->
+    <div class="space-y-0">
+      <div class="process-step flex gap-6 pb-12 relative reveal">
+        <div>
+          <div class="step-circle">01</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="pt-2">
+          <h3 class="font-display text-2xl mb-2 tracking-wide">Contacto y consulta</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Nos reunimos contigo para escuchar tu visión, entender tus necesidades y establecer el alcance del proyecto.</p>
+        </div>
+      </div>
+
+      <div class="process-step flex gap-6 pb-12 relative reveal">
+        <div>
+          <div class="step-circle">02</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="pt-2">
+          <h3 class="font-display text-2xl mb-2 tracking-wide">Diagnóstico y anteproyecto</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Elaboramos planos preliminares, renders y un presupuesto detallado sin costo inicial de compromiso.</p>
+        </div>
+      </div>
+
+      <div class="process-step flex gap-6 pb-12 relative reveal">
+        <div>
+          <div class="step-circle">03</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="pt-2">
+          <h3 class="font-display text-2xl mb-2 tracking-wide">Firma de contrato</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Formalizamos el acuerdo con un contrato claro que especifica alcances, plazos, pagos y garantías.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right steps -->
+    <div class="space-y-0">
+      <div class="process-step flex gap-6 pb-12 relative reveal">
+        <div>
+          <div class="step-circle">04</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="pt-2">
+          <h3 class="font-display text-2xl mb-2 tracking-wide">Trámites y permisos</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Gestionamos licencias de construcción, permisos municipales y manifestaciones de impacto necesarias.</p>
+        </div>
+      </div>
+
+      <div class="process-step flex gap-6 pb-12 relative reveal">
+        <div>
+          <div class="step-circle">05</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="pt-2">
+          <h3 class="font-display text-2xl mb-2 tracking-wide">Ejecución con supervisión</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Construcción con residente de obra dedicado, reportes semanales de avance y control estricto de calidad.</p>
+        </div>
+      </div>
+
+      <div class="process-step flex gap-6 pb-12 relative reveal">
+        <div>
+          <div class="step-circle">06</div>
+        </div>
+        <div class="pt-2">
+          <h3 class="font-display text-2xl mb-2 tracking-wide">Entrega y garantía</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--c-sub)">Recorrido de entrega, documentación técnica completa y garantía estructural de 5 años respaldada por contrato.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     TESTIMONIOS
+════════════════════════════════════════ -->
+<section id="testimonios" class="py-28" style="background:var(--c-surface)">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="reveal mb-16">
+      <div class="section-label mb-4">Testimonios</div>
+      <h2 class="font-display text-5xl sm:text-6xl max-w-lg leading-tight">
+        Lo que dicen<br/>nuestros clientes.
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <div class="testimonial-card reveal">
+        <p class="text-sm leading-relaxed mt-6 mb-6" style="color:var(--c-sub)">
+          "ARCÓN entregó nuestra planta industrial antes del plazo acordado. El nivel de detalle en acabados industriales y la coordinación de subcontratistas fue impecable."
+        </p>
+        <div class="flex items-center gap-3 border-t pt-4" style="border-color:var(--c-border)">
+          <div class="w-10 h-10 flex items-center justify-center font-display text-xl" style="background:var(--c-muted)">RC</div>
+          <div>
+            <div class="font-medium text-sm">Roberto C.</div>
+            <div class="font-mono text-xs" style="color:var(--c-sub)">Director General · TRIPACK S.A.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal">
+        <p class="text-sm leading-relaxed mt-6 mb-6" style="color:var(--c-sub)">
+          "La remodelación de nuestras oficinas corporativas superó todas las expectativas. Respetaron el presupuesto al 100% y los cambios de última hora los manejaron con profesionalismo total."
+        </p>
+        <div class="flex items-center gap-3 border-t pt-4" style="border-color:var(--c-border)">
+          <div class="w-10 h-10 flex items-center justify-center font-display text-xl" style="background:var(--c-muted)">MG</div>
+          <div>
+            <div class="font-medium text-sm">Mónica G.</div>
+            <div class="font-mono text-xs" style="color:var(--c-sub)">CFO · NEXUM Consultoría</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal">
+        <p class="text-sm leading-relaxed mt-6 mb-6" style="color:var(--c-sub)">
+          "Construimos nuestra casa con ARCÓN desde cero. El residente estuvo presente todos los días, la comunicación fue fluida y el resultado es exactamente lo que soñamos."
+        </p>
+        <div class="flex items-center gap-3 border-t pt-4" style="border-color:var(--c-border)">
+          <div class="w-10 h-10 flex items-center justify-center font-display text-xl" style="background:var(--c-muted)">LH</div>
+          <div>
+            <div class="font-medium text-sm">Luis & Helena</div>
+            <div class="font-mono text-xs" style="color:var(--c-sub)">Clientes residenciales</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     CTA BAND
+════════════════════════════════════════ -->
+<section class="py-24" aria-label="Llamado a la acción">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="relative overflow-hidden p-10 sm:p-16" style="background:var(--c-accent)">
+      <!-- Diagonal lines decoration -->
+      <div class="absolute inset-0 opacity-10 pointer-events-none" aria-hidden="true"
+           style="background-image:repeating-linear-gradient(45deg,#000 0,#000 1px,transparent 0,transparent 50%);background-size:12px 12px;"></div>
+
+      <div class="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+        <div>
+          <h2 class="font-display text-4xl sm:text-6xl text-black leading-tight mb-2">
+            ¿TIENES UN PROYECTO<br/>EN MENTE?
+          </h2>
+          <p class="font-mono text-sm text-black/70 tracking-wider">Hablemos hoy mismo. La cotización es sin costo y sin compromiso.</p>
+        </div>
+        <div class="flex flex-wrap gap-4 flex-shrink-0">
+          <a href="#contacto"
+             class="bg-black text-white px-8 py-4 font-mono text-sm tracking-widest hover:bg-carbon-800 transition-colors inline-flex items-center gap-2"
+             aria-label="Solicitar cotización gratuita">
+            SOLICITAR COTIZACIÓN
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <!-- WhatsApp -->
+          <a href="https://wa.me/526621234567?text=Hola,%20me%20gustaría%20solicitar%20información%20sobre%20sus%20servicios%20de%20construcción."
+             target="_blank" rel="noopener noreferrer"
+             class="border-2 border-black text-black px-8 py-4 font-mono text-sm tracking-widest hover:bg-black hover:text-amber-400 transition-colors inline-flex items-center gap-2"
+             aria-label="Contactar por WhatsApp">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WHATSAPP
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     CONTACTO
+════════════════════════════════════════ -->
+<section id="contacto" class="py-28" style="background:var(--c-surface)">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="grid lg:grid-cols-2 gap-16">
+
+      <!-- Info side -->
+      <div class="reveal">
+        <div class="section-label mb-6">Contacto</div>
+        <h2 class="font-display text-5xl sm:text-6xl mb-8 leading-tight">
+          Hablemos de<br/>tu proyecto.
+        </h2>
+
+        <div class="space-y-6">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center border mt-0.5" style="border-color:var(--c-border)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--c-accent)"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+            </div>
+            <div>
+              <div class="font-mono text-xs tracking-widest mb-1" style="color:var(--c-sub)">TELÉFONO</div>
+              <a href="tel:+526621234567" class="text-sm hover:text-accent transition-colors">+52 (662) 123-4567</a>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center border mt-0.5" style="border-color:var(--c-border)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--c-accent)"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            </div>
+            <div>
+              <div class="font-mono text-xs tracking-widest mb-1" style="color:var(--c-sub)">CORREO ELECTRÓNICO</div>
+              <a href="mailto:contacto@arconconstrucciones.mx" class="text-sm hover:text-accent transition-colors">contacto@arconconstrucciones.mx</a>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center border mt-0.5" style="border-color:var(--c-border)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--c-accent)"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </div>
+            <div>
+              <div class="font-mono text-xs tracking-widest mb-1" style="color:var(--c-sub)">UBICACIÓN</div>
+              <p class="text-sm">Blvd. Morelos 1420, Col. Proyecto Río, Hermosillo, Sonora.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center border mt-0.5" style="border-color:var(--c-border)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--c-accent)"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <div>
+              <div class="font-mono text-xs tracking-widest mb-1" style="color:var(--c-sub)">HORARIO DE ATENCIÓN</div>
+              <p class="text-sm">Lunes a Viernes: 8:00 – 18:00 hrs<br/>Sábado: 9:00 – 13:00 hrs</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- WhatsApp floating action -->
+        <a href="https://wa.me/526621234567?text=Hola,%20me%20gustaría%20información%20sobre%20un%20proyecto%20de%20construcción."
+           target="_blank" rel="noopener noreferrer"
+           class="mt-10 inline-flex items-center gap-3 px-5 py-3 border transition-colors hover:border-green-500 hover:text-green-400"
+           style="border-color:var(--c-border)"
+           aria-label="Contactar por WhatsApp">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" class="text-green-400"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          <span class="font-mono text-xs tracking-wider">ESCRÍBENOS POR WHATSAPP</span>
+        </a>
+      </div>
+
+      <!-- Form side -->
+      <div class="reveal">
+        <form id="contact-form" novalidate aria-label="Formulario de contacto">
+          <div class="space-y-4 mb-6">
+
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label for="nombre" class="font-mono text-xs tracking-widest block mb-2" style="color:var(--c-sub)">NOMBRE *</label>
+                <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre completo" class="form-input" autocomplete="name" />
+              </div>
+              <div>
+                <label for="empresa" class="font-mono text-xs tracking-widest block mb-2" style="color:var(--c-sub)">EMPRESA</label>
+                <input type="text" id="empresa" name="empresa" placeholder="Nombre de tu empresa" class="form-input" autocomplete="organization" />
+              </div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label for="email" class="font-mono text-xs tracking-widest block mb-2" style="color:var(--c-sub)">CORREO *</label>
+                <input type="email" id="email" name="email" required placeholder="tucorreo@ejemplo.com" class="form-input" autocomplete="email" />
+              </div>
+              <div>
+                <label for="telefono" class="font-mono text-xs tracking-widest block mb-2" style="color:var(--c-sub)">TELÉFONO</label>
+                <input type="tel" id="telefono" name="telefono" placeholder="+52 662 000 0000" class="form-input" autocomplete="tel" />
+              </div>
+            </div>
+
+            <div>
+              <label for="servicio" class="font-mono text-xs tracking-widest block mb-2" style="color:var(--c-sub)">TIPO DE SERVICIO</label>
+              <select id="servicio" name="servicio" class="form-input" style="appearance:none;cursor:pointer;">
+                <option value="" disabled selected>Selecciona un servicio...</option>
+                <option value="residencial">Construcción Residencial</option>
+                <option value="comercial">Construcción Comercial</option>
+                <option value="industrial">Construcción Industrial</option>
+                <option value="remodelacion">Remodelación / Ampliación</option>
+                <option value="diseno">Diseño Arquitectónico</option>
+                <option value="civil">Obra Civil</option>
+                <option value="mantenimiento">Mantenimiento</option>
+                <option value="electrico">Instalaciones Eléctricas</option>
+                <option value="hidraulico">Instalaciones Hidráulicas</option>
+                <option value="acabados">Acabados</option>
+                <option value="supervision">Supervisión de Obra</option>
+                <option value="llave_mano">Llave en Mano</option>
+                <option value="otro">Otro / Consulta general</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="mensaje" class="font-mono text-xs tracking-widest block mb-2" style="color:var(--c-sub)">MENSAJE *</label>
+              <textarea id="mensaje" name="mensaje" required rows="5"
+                placeholder="Cuéntanos sobre tu proyecto: ubicación, dimensiones aproximadas, plazos y cualquier detalle relevante..."
+                class="form-input resize-none"></textarea>
+            </div>
+          </div>
+
+          <!-- Consent -->
+          <label class="flex items-start gap-3 mb-6 cursor-pointer group">
+            <input type="checkbox" id="consent" name="consent" required class="mt-1 accent-amber-500" />
+            <span class="text-xs leading-relaxed" style="color:var(--c-sub)">
+              Acepto el tratamiento de mis datos personales conforme al
+              <a href="#" class="text-accent underline hover:no-underline">Aviso de Privacidad</a>
+              de ARCÓN Construcciones.
+            </span>
+          </label>
+
+          <button type="submit" class="btn-primary w-full justify-center text-sm" aria-label="Enviar formulario de contacto">
+            ENVIAR SOLICITUD
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+
+          <!-- Success / Error messages (hidden by default) -->
+          <div id="form-success" class="hidden mt-4 p-4 border font-mono text-sm text-green-400" style="border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.05);">
+            ✓ Tu solicitud fue enviada. Te contactaremos en menos de 24 horas.
+          </div>
+          <div id="form-error" class="hidden mt-4 p-4 border font-mono text-sm text-red-400" style="border-color:rgba(248,113,113,.3);background:rgba(248,113,113,.05);">
+            ✕ Por favor completa los campos requeridos antes de enviar.
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer style="background:var(--c-bg);border-top:1px solid var(--c-border)" aria-label="Pie de página">
+  <div class="max-w-7xl mx-auto px-6 py-16">
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+
+      <!-- Brand -->
+      <div class="lg:col-span-2">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 bg-amber-500 flex items-center justify-center" style="clip-path:polygon(0 0,100% 0,100% 75%,75% 100%,0 100%);">
+            <span class="font-display text-black text-sm leading-none">A</span>
+          </div>
+          <span class="font-display text-2xl tracking-widest">ARCÓN</span>
+        </div>
+        <p class="text-sm max-w-xs leading-relaxed" style="color:var(--c-sub)">
+          Empresa de construcción y servicios integrales con más de 20 años de experiencia en proyectos residenciales, comerciales e industriales.
+        </p>
+        <!-- Social -->
+        <div class="flex gap-3 mt-6">
+          <a href="#" class="w-9 h-9 border flex items-center justify-center hover:border-amber-500 transition-colors" style="border-color:var(--c-border)" aria-label="Facebook">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+          <a href="#" class="w-9 h-9 border flex items-center justify-center hover:border-amber-500 transition-colors" style="border-color:var(--c-border)" aria-label="Instagram">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="#" class="w-9 h-9 border flex items-center justify-center hover:border-amber-500 transition-colors" style="border-color:var(--c-border)" aria-label="LinkedIn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Links -->
+      <div>
+        <h3 class="font-mono text-xs tracking-widest mb-5" style="color:var(--c-sub)">SERVICIOS</h3>
+        <ul class="space-y-2.5">
+          <li><a href="#servicios" class="text-sm hover:text-accent transition-colors" style="color:var(--c-sub)">Construcción Residencial</a></li>
+          <li><a href="#servicios" class="text-sm hover:text-accent transition-colors" style="color:var(--c-sub)">Construcción Comercial</a></li>
+          <li><a href="#servicios" class="text-sm hover:text-accent transition-colors" style="color:var(--c-sub)">Obra Civil</a></li>
+          <li><a href="#servicios" class="text-sm hover:text-accent transition-colors" style="color:var(--c-sub)">Remodelaciones</a></li>
+          <li><a href="#servicios" class="text-sm hover:text-accent transition-colors" style="color:var(--c-sub)">Llave en Mano</a></li>
+          <li><a href="#servicios" class="text-sm hover:text-accent transition-colors" style="color:var(--c-sub)">Diseño Arquitectónico</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal / Nav -->
+      <div>
+        <h3 class="font-mono text-xs tracking-widest mb-5" style="color:var(--c-sub)">EMPRESA</h3>
+        <ul class="space-y-2.5">
+          <li><a href="#nosotros" class="text-sm hover:text-accent transition-colors" style="color:var(--c-sub)">Sobre nosotros</a></li>
+          <li><a href="#proyectos" class="text-sm hover:text-accent transition-colors" style="color:var(--c-sub)">Proyectos</a></li>
+          <li><a href="#proceso" class="text-sm hover:text-accent transition-colors" style="color:var(--c-sub)">Proceso de trabajo</a></li>
+          <li><a href="#contacto" class="text-sm hover:text-accent transition-colors" style="color:var(--c-sub)">Contacto</a></li>
+          <li><a href="#" class="text-sm hover:text-accent transition-colors" style="color:var(--c-sub)">Aviso de privacidad</a></li>
+          <li><a href="#" class="text-sm hover:text-accent transition-colors" style="color:var(--c-sub)">Términos y condiciones</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="divider mb-6"></div>
+
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <p class="font-mono text-xs" style="color:var(--c-sub)">
+        © 2024 ARCÓN Construcciones S.A. de C.V. — Todos los derechos reservados.
+      </p>
+      <p class="font-mono text-xs" style="color:var(--c-sub)">
+        RFC: ARC-001234-XXX &nbsp;|&nbsp; Lic. Constructora No. 00000
+      </p>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ════════════════════════════════════════
+     WHATSAPP FLOATING BUTTON
+════════════════════════════════════════ -->
+<a href="https://wa.me/526621234567?text=Hola,%20me%20gustaría%20información%20sobre%20sus%20servicios%20de%20construcción."
+   target="_blank" rel="noopener noreferrer"
+   class="fixed bottom-6 right-6 z-50 w-14 h-14 flex items-center justify-center rounded-full shadow-2xl transition-transform hover:scale-110"
+   style="background:#25d366"
+   aria-label="Abrir WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- ════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════ -->
+<script>
+  /* ── NAVBAR: scroll class ── */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  /* ── HAMBURGER MENU ── */
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', isOpen);
+    const lines = hamburger.querySelectorAll('.ham-line');
+    if (isOpen) {
+      lines[0].style.cssText = 'transform:translateY(8px) rotate(45deg)';
+      lines[1].style.cssText = 'opacity:0';
+      lines[2].style.cssText = 'transform:translateY(-8px) rotate(-45deg);width:24px';
+    } else {
+      lines.forEach(l => (l.style.cssText = ''));
+    }
+  });
+  // Close menu on link click
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', false);
+      hamburger.querySelectorAll('.ham-line').forEach(l => (l.style.cssText = ''));
+    });
+  });
+
+  /* ── SCROLL REVEAL ── */
+  const revealObserver = new IntersectionObserver(
+    (entries) => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } }),
+    { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+  );
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  /* ── COUNTER ANIMATION ── */
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target, 10);
+    const duration = 1800;
+    const step = 16;
+    const increment = target / (duration / step);
+    let current = 0;
+    const timer = setInterval(() => {
+      current = Math.min(current + increment, target);
+      el.textContent = Math.floor(current);
+      if (current >= target) clearInterval(timer);
+    }, step);
+  }
+
+  const counterObserver = new IntersectionObserver(
+    (entries) => entries.forEach(e => {
+      if (e.isIntersecting) {
+        animateCounter(e.target);
+        counterObserver.unobserve(e.target);
+      }
+    }),
+    { threshold: 0.5 }
+  );
+  document.querySelectorAll('.counter-num[data-target]').forEach(el => counterObserver.observe(el));
+
+  /* ── FORM VALIDATION (demo) ── */
+  document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const nombre  = document.getElementById('nombre').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const mensaje = document.getElementById('mensaje').value.trim();
+    const consent = document.getElementById('consent').checked;
+    const success = document.getElementById('form-success');
+    const error   = document.getElementById('form-error');
+
+    success.classList.add('hidden');
+    error.classList.add('hidden');
+
+    if (!nombre || !email || !mensaje || !consent) {
+      error.classList.remove('hidden');
+      error.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      return;
+    }
+    // Simulate send
+    const btn = this.querySelector('button[type="submit"]');
+    btn.textContent = 'ENVIANDO...';
+    btn.disabled = true;
+    setTimeout(() => {
+      success.classList.remove('hidden');
+      success.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      this.reset();
+      btn.innerHTML = 'ENVIAR SOLICITUD <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+      btn.disabled = false;
+    }, 1200);
+  });
+
+  /* ── STAGGER SERVICE CARDS ── */
+  document.querySelectorAll('.service-card').forEach((card, i) => {
+    card.style.transitionDelay = `${(i % 4) * 60}ms`;
+  });
+</script>
+
+</body>
+</html>

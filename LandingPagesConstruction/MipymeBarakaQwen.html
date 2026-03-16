@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NEXUS Constructora: Ingeniería avanzada y construcción de alto nivel. Proyectos llave en mano, industriales y residenciales.">
+    <meta name="theme-color" content="#0b0b0b">
+    <title>NEXUS Constructora | Ingeniería & Edificación</title>
+
+    <!-- Tipografías Técnicas (Estándar) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Bebas Neue', 'sans-serif'],
+                        body: ['DM Sans', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace'],
+                    },
+                    colors: {
+                        // Paleta Dark Industrial Personalizada
+                        nexus: { 
+                            black: '#050505', 
+                            dark: '#0f0f0f', 
+                            gray: '#1a1a1a', 
+                            border: '#262626' 
+                        },
+                        // Acento Ámbar Técnico
+                        tech: { 
+                            gold: '#ffb700', 
+                            amber: '#f59e0b', 
+                            dim: 'rgba(245, 158, 11, 0.1)' 
+                        }
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, #262626 1px, transparent 1px), linear-gradient(to bottom, #262626 1px, transparent 1px)"
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ── CORE VARIABLES ─────────────────── */
+        :root {
+            --bg: #050505;
+            --surface: #0f0f0f;
+            --border: #262626;
+            --text: #e5e5e5;
+            --muted: #a3a3a3;
+            --primary: #ffb700;
+        }
+
+        /* ── RESET & BASE ─────────────────── */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ── TEXTURA DE FONDO (Ruido) ─────── */
+        .noise-overlay {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* ── UTILIDADES UI ────────────────── */
+        .text-gold { color: var(--primary); }
+        .border-gold { border-color: var(--primary); }
+        .bg-surface { background-color: var(--surface); }
+        
+        /* ── NAVBAR ───────────────────────── */
+        #navbar {
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
+        #navbar.active {
+            background: rgba(5, 5, 5, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding-top: 1rem; padding-bottom: 1rem;
+        }
+
+        /* ── HERO SECTION ────────────────── */
+        .hero-section {
+            position: relative; min-height: 100vh;
+            display: flex; align-items: center;
+            background: radial-gradient(circle at 70% 20%, #1a1a1a 0%, #050505 60%);
+        }
+        .hero-grid {
+            position: absolute; inset: 0;
+            background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 4rem 4rem; opacity: 0.15; mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
+
+        /* ── TYPOGRAPHY DISPLAY ───────────── */
+        .display-text {
+            font-family: 'Bebas Neue', sans-serif;
+            line-height: 0.9; letter-spacing: 0.02em;
+        }
+
+        /* ── BOTONES TÉCNICOS ─────────────── */
+        .btn-tech {
+            font-family: 'Space Mono', monospace;
+            text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.75rem; font-weight: 700;
+            padding: 1rem 2rem; position: relative; overflow: hidden;
+            transition: all 0.3s ease;
+            display: inline-flex; align-items: center; gap: 0.75rem;
+            clip-path: polygon(0 0, 100% 0, 100% 75%, 95% 100%, 0 100%);
+        }
+        .btn-primary { background: var(--primary); color: #000; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255, 183, 0, 0.2); }
+        
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* ── TARJETAS DE SERVICIO ─────────── */
+        .service-card {
+            background: var(--surface); border: 1px solid var(--border);
+            padding: 2.5rem 2rem; transition: all 0.4s ease;
+            position: relative;
+        }
+        .service-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 2px; height: 0;
+            background: var(--primary); transition: height 0.4s ease;
+        }
+        .service-card:hover { transform: translateY(-5px); border-color: #404040; }
+        .service-card:hover::before { height: 100%; }
+
+        /* ── ANIMACIONES SCROLL ───────────── */
+        .reveal-up { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* ── SCROLLBAR ────────────────────── */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        /* ── ELEMENTOS FLOTANTES ──────────── */
+        .whatsapp-float {
+            position: fixed; bottom: 2rem; right: 2rem; z-index: 99;
+            background: #25D366; width: 60px; height: 60px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+            transition: transform 0.3s;
+        }
+        .whatsapp-float:hover { transform: scale(1.1); }
+    </style>
+</head>
+<body>
+
+    <!-- Ruido de fondo -->
+    <div class="noise-overlay"></div>
+
+    <!-- NAVBAR -->
+    <nav id="navbar" class="py-6">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 bg-tech-gold flex items-center justify-center" style="clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);">
+                    <span class="font-display text-black text-2xl">N</span>
+                </div>
+                <span class="font-display text-3xl tracking-[0.2em] text-white">NEXUS</span>
+            </a>
+
+            <div class="hidden md:flex items-center gap-10">
+                <a href="#expertise" class="font-mono text-xs text-gray-400 hover:text-tech-gold transition tracking-widest">EXPERTISE</a>
+                <a href="#servicios" class="font-mono text-xs text-gray-400 hover:text-tech-gold transition tracking-widest">SERVICIOS</a>
+                <a href="#proyectos" class="font-mono text-xs text-gray-400 hover:text-tech-gold transition tracking-widest">PROYECTOS</a>
+                <a href="#contacto" class="btn-tech btn-primary">
+                    Iniciar Proyecto
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
+            </div>
+
+            <button id="menu-btn" class="md:hidden text-white focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div class="hero-grid"></div>
+        <div class="max-w-7xl mx-auto px-6 relative z-10 w-full pt-20">
+            <div class="max-w-4xl">
+                <div class="inline-flex items-center gap-2 border border-tech-gold/30 bg-tech-dim px-4 py-2 mb-8 reveal-up">
+                    <span class="w-2 h-2 bg-tech-gold rounded-full animate-pulse"></span>
+                    <span class="font-mono text-xs text-tech-gold tracking-widest">INGENIERÍA DE ALTA PRECISIÓN</span>
+                </div>
+                
+                <h1 class="display-text text-7xl sm:text-8xl md:text-[9rem] text-white mb-8 reveal-up" style="transition-delay: 100ms;">
+                    EDIFICAMOS <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-tech-gold to-amber-700">LEGADOS</span>
+                </h1>
+                
+                <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl reveal-up" style="transition-delay: 200ms;">
+                    Transformamos visiones complejas en estructuras sólidas. Especialistas en construcción industrial, comercial y residencial de alto estándar.
+                </p>
+                
+                <div class="flex flex-wrap gap-6 reveal-up" style="transition-delay: 300ms;">
+                    <a href="#contacto" class="btn-tech btn-primary">COTIZAR AHORA</a>
+                    <a href="#proyectos" class="btn-tech btn-outline">VER PORTAFOLIO</a>
+                </div>
+
+                <!-- Estadísticas Rápidas -->
+                <div class="grid grid-cols-3 gap-8 mt-20 border-t border-gray-800 pt-10 reveal-up">
+                    <div>
+                        <span class="block font-display text-5xl text-tech-gold counter" data-target="150">0</span>
+                        <span class="font-mono text-[10px] text-gray-500 tracking-[0.2em] mt-2 block">PROYECTOS</span>
+                    </div>
+                    <div>
+                        <span class="block font-display text-5xl text-tech-gold counter" data-target="15">0</span>
+                        <span class="font-mono text-[10px] text-gray-500 tracking-[0.2em] mt-2 block">AÑOS EXP.</span>
+                    </div>
+                    <div>
+                        <span class="block font-display text-5xl text-tech-gold counter" data-target="100">0</span>
+                        <span class="font-mono text-[10px] text-gray-500 tracking-[0.2em] mt-2 block">% CUMPLIMIENTO</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MARQUEE INFINITO -->
+    <div class="border-y border-gray-800 bg-black overflow-hidden py-4">
+        <div class="whitespace-nowrap animate-[marquee_20s_linear_infinite] font-mono text-xs text-gray-500 tracking-widest flex gap-12">
+            <span>CONSTRUCCIÓN INDUSTRIAL</span> <span class="text-tech-gold">◆</span>
+            <span>DESARROLLO COMERCIAL</span> <span class="text-tech-gold">◆</span>
+            <span>INGENIERÍA ESTRUCTURAL</span> <span class="text-tech-gold">◆</span>
+            <span>GESTIÓN DE OBRA</span> <span class="text-tech-gold">◆</span>
+            <span>ACABADOS PREMIUM</span> <span class="text-tech-gold">◆</span>
+            <!-- Duplicado -->
+            <span>CONSTRUCCIÓN INDUSTRIAL</span> <span class="text-tech-gold">◆</span>
+            <span>DESARROLLO COMERCIAL</span> <span class="text-tech-gold">◆</span>
+            <span>INGENIERÍA ESTRUCTURAL</span> <span class="text-tech-gold">◆</span>
+        </div>
+    </div>
+
+    <!-- SERVICIOS (GRID) -->
+    <section id="servicios" class="py-24 bg-nexus-dark">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 reveal-up">
+                <div>
+                    <span class="font-mono text-xs text-tech-gold tracking-widest block mb-3">CAPACIDADES</span>
+                    <h2 class="display-text text-6xl text-white">NUESTROS SERVICIOS</h2>
+                </div>
+                <p class="text-gray-400 max-w-md text-sm mt-6 md:mt-0">Soluciones integrales desde la cimentación hasta la entrega de llaves.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Servicio 1 -->
+                <div class="service-card reveal-up">
+                    <div class="text-tech-gold text-4xl mb-6">🏗️</div>
+                    <h3 class="font-display text-3xl text-white mb-3">Obra Civil</h3>
+                    <p class="text-sm text-gray-400 font-mono leading-relaxed">Cimentaciones profundas, estructuras de concreto y urbanización de terrenos.</p>
+                </div>
+                <!-- Servicio 2 -->
+                <div class="service-card reveal-up">
+                    <div class="text-tech-gold text-4xl mb-6">🏭</div>
+                    <h3 class="font-display text-3xl text-white mb-3">Naves Industriales</h3>
+                    <p class="text-sm text-gray-400 font-mono leading-relaxed">Estructuras metálicas, pisos de alto tráfico y logística industrial.</p>
+                </div>
+                <!-- Servicio 3 -->
+                <div class="service-card reveal-up">
+                    <div class="text-tech-gold text-4xl mb-6">🏢</div>
+                    <h3 class="font-display text-3xl text-white mb-3">Edificios Comerciales</h3>
+                    <p class="text-sm text-gray-400 font-mono leading-relaxed">Oficinas corporativas, plazas comerciales y espacios retail.</p>
+                </div>
+                <!-- Servicio 4 -->
+                <div class="service-card reveal-up">
+                    <div class="text-tech-gold text-4xl mb-6">🏠</div>
+                    <h3 class="font-display text-3xl text-white mb-3">Residencial Premium</h3>
+                    <p class="text-sm text-gray-400 font-mono leading-relaxed">Casas de lujo, fraccionamientos privados y amenidades.</p>
+                </div>
+                <!-- Servicio 5 -->
+                <div class="service-card reveal-up">
+                    <div class="text-tech-gold text-4xl mb-6">⚡</div>
+                    <h3 class="font-display text-3xl text-white mb-3">Instalaciones</h3>
+                    <p class="text-sm text-gray-400 font-mono leading-relaxed">Sistemas eléctricos, hidráulicos y HVAC de alta eficiencia.</p>
+                </div>
+                <!-- Servicio 6 -->
+                <div class="service-card reveal-up">
+                    <div class="text-tech-gold text-4xl mb-6">🗝️</div>
+                    <h3 class="font-display text-3xl text-white mb-3">Llave en Mano</h3>
+                    <p class="text-sm text-gray-400 font-mono leading-relaxed">Gestión total del proyecto. Usted imagina, nosotros ejecutamos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DE PROCESO (TIMELINE) -->
+    <section id="proceso" class="py-24 bg-nexus-black border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20 reveal-up">
+                <span class="font-mono text-xs text-tech-gold tracking-widest block mb-3">METODOLOGÍA</span>
+                <h2 class="display-text text-6xl text-white">FLUJO DE TRABAJO</h2>
+            </div>
+
+            <div class="relative">
+                <!-- Línea central -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-px bg-gray-800 hidden md:block"></div>
+
+                <!-- Paso 1 -->
+                <div class="flex flex-col md:flex-row items-center justify-between mb-16 reveal-up">
+                    <div class="md:w-5/12 text-right md:pr-12 mb-6 md:mb-0">
+                        <h3 class="font-display text-3xl text-white mb-2">01. Consultoría</h3>
+                        <p class="text-gray-400 text-sm font-mono">Análisis de viabilidad, terreno y requerimientos iniciales.</p>
+                    </div>
+                    <div class="w-10 h-10 bg-tech-gold rounded-full flex items-center justify-center text-black font-bold z-10">1</div>
+                    <div class="md:w-5/12 md:pl-12"></div>
+                </div>
+
+                <!-- Paso 2 -->
+                <div class="flex flex-col md:flex-row items-center justify-between mb-16 reveal-up">
+                    <div class="md:w-5/12"></div>
+                    <div class="w-10 h-10 bg-nexus-dark border border-tech-gold rounded-full flex items-center justify-center text-tech-gold font-bold z-10">2</div>
+                    <div class="md:w-5/12 md:pl-12">
+                        <h3 class="font-display text-3xl text-white mb-2">02. Ingeniería</h3>
+                        <p class="text-gray-400 text-sm font-mono">Planos ejecutivos, presupuestos y cronogramas detallados.</p>
+                    </div>
+                </div>
+
+                <!-- Paso 3 -->
+                <div class="flex flex-col md:flex-row items-center justify-between mb-16 reveal-up">
+                    <div class="md:w-5/12 text-right md:pr-12 mb-6 md:mb-0">
+                        <h3 class="font-display text-3xl text-white mb-2">03. Ejecución</h3>
+                        <p class="text-gray-400 text-sm font-mono">Construcción supervisada con reportes semanales.</p>
+                    </div>
+                    <div class="w-10 h-10 bg-nexus-dark border border-tech-gold rounded-full flex items-center justify-center text-tech-gold font-bold z-10">3</div>
+                    <div class="md:w-5/12 md:pl-12"></div>
+                </div>
+
+                <!-- Paso 4 -->
+                <div class="flex flex-col md:flex-row items-center justify-between reveal-up">
+                    <div class="md:w-5/12"></div>
+                    <div class="w-10 h-10 bg-nexus-dark border border-tech-gold rounded-full flex items-center justify-center text-tech-gold font-bold z-10">4</div>
+                    <div class="md:w-5/12 md:pl-12">
+                        <h3 class="font-display text-3xl text-white mb-2">04. Entrega</h3>
+                        <p class="text-gray-400 text-sm font-mono">Limpieza, garantías y documentación final.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto" class="py-24 bg-nexus-dark">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <!-- Info -->
+                <div class="reveal-up">
+                    <span class="font-mono text-xs text-tech-gold tracking-widest block mb-3">CONTACTO</span>
+                    <h2 class="display-text text-6xl text-white mb-8">HABLEMOS DE SU PROYECTO</h2>
+                    <p class="text-gray-400 mb-10">Estamos listos para escuchar sus necesidades y proponer la solución técnica más eficiente.</p>
+                    
+                    <div class="space-y-6 font-mono text-sm">
+                        <div class="flex items-center gap-4 text-gray-300">
+                            <span class="text-tech-gold">📍</span> Av. Tecnológico 500, Parque Industrial
+                        </div>
+                        <div class="flex items-center gap-4 text-gray-300">
+                            <span class="text-tech-gold">📞</span> +52 (55) 9876-5432
+                        </div>
+                        <div class="flex items-center gap-4 text-gray-300">
+                            <span class="text-tech-gold">✉️</span> proyectos@nexusconstructora.com
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulario -->
+                <form class="space-y-6 reveal-up bg-nexus-black p-8 border border-gray-800">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block font-mono text-xs text-gray-500 mb-2 tracking-widest">NOMBRE</label>
+                            <input type="text" class="w-full bg-nexus-dark border border-gray-800 p-4 text-white focus:border-tech-gold outline-none transition" placeholder="Su nombre">
+                        </div>
+                        <div>
+                            <label class="block font-mono text-xs text-gray-500 mb-2 tracking-widest">TELÉFONO</label>
+                            <input type="tel" class="w-full bg-nexus-dark border border-gray-800 p-4 text-white focus:border-tech-gold outline-none transition" placeholder="Su teléfono">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block font-mono text-xs text-gray-500 mb-2 tracking-widest">CORREO</label>
+                        <input type="email" class="w-full bg-nexus-dark border border-gray-800 p-4 text-white focus:border-tech-gold outline-none transition" placeholder="correo@empresa.com">
+                    </div>
+                    <div>
+                        <label class="block font-mono text-xs text-gray-500 mb-2 tracking-widest">MENSAJE</label>
+                        <textarea rows="4" class="w-full bg-nexus-dark border border-gray-800 p-4 text-white focus:border-tech-gold outline-none transition" placeholder="Detalles del proyecto..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-tech btn-primary w-full justify-center">ENVIAR SOLICITUD</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black border-t border-gray-800 py-12">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-tech-gold flex items-center justify-center" style="clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);">
+                    <span class="font-display text-black text-xl">N</span>
+                </div>
+                <span class="font-display text-2xl tracking-widest text-white">NEXUS</span>
+            </div>
+            <div class="font-mono text-xs text-gray-600">
+                © 2024 NEXUS Constructora. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- WHATSAPP FLOAT -->
+    <a href="#" class="whatsapp-float" aria-label="Chat WhatsApp">
+        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            nav.classList.toggle('active', window.scrollY > 50);
+        });
+
+        // Mobile Menu
+        const menuBtn = document.getElementById('menu-btn');
+        menuBtn.addEventListener('click', () => {
+            alert('Funcionalidad de menú móvil lista para implementar');
+        });
+
+        // Scroll Reveal Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal-up').forEach(el => observer.observe(el));
+
+        // Counter Animation
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = +counter.getAttribute('data-target');
+                    const increment = target / 50;
+                    let current = 0;
+                    const update = () => {
+                        current += increment;
+                        if (current < target) {
+                            counter.innerText = Math.ceil(current);
+                            requestAnimationFrame(update);
+                        } else {
+                            counter.innerText = target;
+                        }
+                    };
+                    update();
+                    counterObserver.unobserve(counter);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+    </script>
+</body>
+</html>

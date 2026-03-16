@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NEXUS | Ingeniería Estructural de Vanguardia</title>
+    <meta name="description" content="NEXUS Ingeniería Estructural. Llevamos la construcción al siguiente nivel con diseño generativo, prefabricación de alta precisión y gestión de proyectos BIM." />
+    <meta name="keywords" content="ingeniería estructural, diseño generativo, construcción, BIM, prefabricados, obra civil" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Oxanium:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Oxanium', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        :root {
+            --c-blueprint-bg: #0A101F;
+            --c-blueprint-surface: #10182B;
+            --c-blueprint-border: #1F2A4A;
+            --c-text-primary: #EAF0FF;
+            --c-text-secondary: #98A6C3;
+            --c-cyan: #00E0FF;
+        }
+        
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: var(--font-b);
+            background-color: var(--c-blueprint-bg);
+            color: var(--c-text-primary);
+            overflow-x: hidden;
+        }
+
+        /* ─── CUSTOM SCROLLBAR ────────────────────────── */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--c-blueprint-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--c-cyan); }
+        
+        /* ─── BLUEPRINT BACKGROUND EFFECT ────────────────── */
+        #main-container { position: relative; }
+        #main-container::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(var(--c-blueprint-border) 1px, transparent 1px), 
+                linear-gradient(90deg, var(--c-blueprint-border) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.1;
+            z-index: -2;
+        }
+
+        #main-container::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0, 224, 255, 0.2), transparent 2px);
+            background-size: 100% 3px;
+            animation: scanline 10s linear infinite;
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        @keyframes scanline { to { transform: translateY(100vh); } }
+
+        /* ─── NAVBAR STYLES ──────────────────────────── */
+        #navbar {
+            transition: background-color 0.3s ease-in-out, border-color 0.3s;
+        }
+        #navbar.scrolled {
+            background-color: rgba(10, 16, 31, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom-color: var(--c-blueprint-border);
+        }
+
+        /* ─── ANIMATIONS & TRANSITIONS ───────────────── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s, transform 0.8s;
+            transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ─── TYPOGRAPHY & DECORATION ────────────────── */
+        .section-heading {
+            font-family: 'Oxanium', sans-serif;
+            letter-spacing: 0.02em;
+        }
+        .section-label {
+            font-family: 'Oxanium', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            color: var(--c-cyan);
+            text-transform: uppercase;
+        }
+        .highlight { color: var(--c-cyan); }
+        .text-body { color: var(--c-text-secondary); line-height: 1.7; }
+        
+        /* ─── BUTTONS & INTERACTIVE ELEMENTS ──────────── */
+        .btn {
+            font-family: 'Oxanium', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.75rem;
+            border: 1px solid var(--c-cyan);
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .btn-primary {
+            background-color: var(--c-cyan);
+            color: var(--c-blueprint-bg);
+            box-shadow: 0 0 15px rgba(0, 224, 255, 0.2);
+        }
+        .btn-secondary {
+            color: var(--c-cyan);
+        }
+        .btn:hover {
+            box-shadow: 0 0 25px rgba(0, 224, 255, 0.4);
+        }
+        .btn span { transition: all 0.2s; }
+        .btn:hover span {
+            text-shadow: 0 0 5px var(--c-cyan);
+            animation: glitch-text 0.4s;
+        }
+
+        @keyframes glitch-text {
+            0%, 100% { transform: translate(0, 0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            60% { transform: translate(-1px, 1px); }
+            80% { transform: translate(1px, -1px); }
+        }
+
+        /* ─── BENTO GRID & CARDS ─────────────────────── */
+        .bento-card {
+            background-color: var(--c-blueprint-surface);
+            border: 1px solid var(--c-blueprint-border);
+            border-radius: 0.5rem;
+            padding: 1.75rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            box-shadow: 0 0 40px -10px var(--c-cyan);
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .bento-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .bento-card:hover::before { opacity: 0.6; }
+        
+        .bento-card h3 {
+            font-family: 'Oxanium', sans-serif;
+        }
+    </style>
+</head>
+<body id="main-container">
+
+    <!-- ──── NAVBAR ────────────────────────────────────────── -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 border-b border-transparent">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-3xl font-display font-bold tracking-wider">NEXUS</a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="text-sm hover:text-cyan-400 transition-colors">Nosotros</a>
+                <a href="#services" class="text-sm hover:text-cyan-400 transition-colors">Servicios</a>
+                <a href="#process" class="text-sm hover:text-cyan-400 transition-colors">Proceso</a>
+                <a href="#contact" class="btn btn-secondary text-xs px-5 py-2"><span>Contacto</span></a>
+            </div>
+            <button class="md:hidden text-2xl" aria-label="Abrir menú">☰</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ──── HERO ────────────────────────────────────────── -->
+        <section class="min-h-screen flex items-center justify-center text-center pt-24">
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="reveal">
+                    <h1 class="section-heading text-6xl md:text-8xl font-bold leading-none tracking-tighter">
+                        INGENIERÍA <br> <span class="highlight">ESTRUCTURAL</span>
+                    </h1>
+                    <p class="text-body max-w-2xl mx-auto mt-6 text-lg">
+                        Diseñamos y construimos las estructuras del mañana con precisión digital, materiales innovadores y una ejecución impecable.
+                    </p>
+                    <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="#services" class="btn btn-primary"><span>Explorar Servicios</span></a>
+                        <a href="#contact" class="btn btn-secondary"><span>Iniciar Proyecto</span></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ──── ABOUT ────────────────────────────────────────── -->
+        <section id="about" class="py-24">
+            <div class="container mx-auto px-6">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div class="reveal">
+                        <div class="section-label mb-4">Filosofía Nexus</div>
+                        <h2 class="section-heading text-5xl font-bold leading-tight">Precisión Digital, <br>Impacto Real.</h2>
+                        <p class="text-body mt-6">
+                            En NEXUS, no solo construimos; creamos sistemas. Cada proyecto es un ecosistema de datos, materiales y logística, optimizado a través de modelos BIM 7D. Esta metodología nos permite anticipar desafíos, garantizar la eficiencia de recursos y entregar proyectos de una complejidad y calidad sin precedentes, siempre a tiempo y dentro del presupuesto.
+                        </p>
+                    </div>
+                    <div class="reveal grid grid-cols-2 gap-6">
+                        <div class="bento-card text-center">
+                            <div class="section-heading text-5xl font-bold highlight counter" data-target="15">0</div>
+                            <p class="text-xs text-body uppercase tracking-widest mt-2">Años de Innovación</p>
+                        </div>
+                        <div class="bento-card text-center">
+                            <div class="section-heading text-5xl font-bold highlight counter" data-target="100">0</div>
+                            <p class="text-xs text-body uppercase tracking-widest mt-2">% Proyectos en BIM</p>
+                        </div>
+                        <div class="bento-card text-center col-span-2">
+                            <div class="section-heading text-5xl font-bold highlight counter" data-target="450">0</div>
+                            <p class="text-xs text-body uppercase tracking-widest mt-2">Proyectos Gestionados</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ──── SERVICES (BENTO GRID) ────────────────────────── -->
+        <section id="services" class="py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center reveal mb-16">
+                    <div class="section-label mb-4">Nuestros Servicios</div>
+                    <h2 class="section-heading text-5xl font-bold">Capacidades de Vanguardia</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="reveal bento-card lg:col-span-2">
+                        <h3 class="text-2xl font-bold mb-2">Diseño Generativo & BIM 7D</h3>
+                        <p class="text-body text-sm">Utilizamos algoritmos para explorar miles de opciones de diseño y optimizar la estructura. Nuestro modelado BIM 7D integra planificación (4D), costos (5D), sostenibilidad (6D) y gestión de ciclo de vida (7D).</p>
+                    </div>
+                    <div class="reveal bento-card">
+                        <h3 class="text-2xl font-bold mb-2">Obra Civil</h3>
+                        <p class="text-body text-sm">Infraestructuras complejas con cimentaciones profundas y análisis geotécnico avanzado.</p>
+                    </div>
+                    <div class="reveal bento-card">
+                        <h3 class="text-2xl font-bold mb-2">Remodelación Estructural</h3>
+                        <p class="text-body text-sm">Refuerzo y adaptación de estructuras existentes para nuevos usos y normativas.</p>
+                    </div>
+                    <div class="reveal bento-card">
+                        <h3 class="text-2xl font-bold mb-2">Prefabricación de Alta Precisión</h3>
+                        <p class="text-body text-sm">Fabricación de componentes en un entorno controlado para un montaje rápido y sin errores en obra.</p>
+                    </div>
+                    <div class="reveal bento-card lg:col-span-2">
+                         <h3 class="text-2xl font-bold mb-2">Edificación Industrial y Comercial</h3>
+                        <p class="text-body text-sm">Naves industriales, centros logísticos y edificios comerciales de gran envergadura diseñados para máxima eficiencia operativa.</p>
+                    </div>
+                    <div class="reveal bento-card">
+                         <h3 class="text-2xl font-bold mb-2">Gestión de Proyecto "Llave en Mano"</h3>
+                        <p class="text-body text-sm">Asumimos la gestión integral del proyecto, desde la concepción hasta la entrega final.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ──── PROCESS ─────────────────────────────────────── -->
+        <section id="process" class="py-24">
+             <div class="container mx-auto px-6">
+                <div class="text-center reveal mb-16">
+                    <div class="section-label mb-4">Metodología</div>
+                    <h2 class="section-heading text-5xl font-bold">Proceso Definido por Datos</h2>
+                </div>
+                <div class="grid md:grid-cols-4 gap-px bg-blue-900/20 border border-blue-900/30">
+                    <div class="reveal p-8 bg-gradient-to-b from-blue-900/10 to-transparent">
+                        <div class="text-6xl font-display font-bold text-blue-900/40 mb-4">01</div>
+                        <h3 class="section-heading text-xl font-bold mb-2 highlight">Inmersión y Simulación</h3>
+                        <p class="text-body text-sm">Analizamos los requisitos y creamos un gemelo digital. Simulamos el rendimiento estructural, climático y financiero.</p>
+                    </div>
+                     <div class="reveal p-8 bg-gradient-to-b from-blue-900/10 to-transparent">
+                        <div class="text-6xl font-display font-bold text-blue-900/40 mb-4">02</div>
+                        <h3 class="section-heading text-xl font-bold mb-2 highlight">Diseño y Prefabricación</h3>
+                        <p class="text-body text-sm">El diseño final alimenta directamente a las máquinas de prefabricación. Cada componente se produce con precisión milimétrica.</p>
+                    </div>
+                     <div class="reveal p-8 bg-gradient-to-b from-blue-900/10 to-transparent">
+                        <div class="text-6xl font-display font-bold text-blue-900/40 mb-4">03</div>
+                        <h3 class="section-heading text-xl font-bold mb-2 highlight">Logística y Ensamblaje</h3>
+                        <p class="text-body text-sm">Coordinamos la entrega "just-in-time" de componentes. El ensamblaje en sitio es rápido, seguro y genera mínimos residuos.</p>
+                    </div>
+                     <div class="reveal p-8 bg-gradient-to-b from-blue-900/10 to-transparent">
+                        <div class="text-6xl font-display font-bold text-blue-900/40 mb-4">04</div>
+                        <h3 class="section-heading text-xl font-bold mb-2 highlight">Entrega y Optimización</h3>
+                        <p class="text-body text-sm">Entregamos el proyecto y su gemelo digital para la gestión del ciclo de vida, permitiendo un mantenimiento predictivo y eficiente.</p>
+                    </div>
+                </div>
+             </div>
+        </section>
+        
+        <!-- ──── CONTACT ───────────────────────────────────── -->
+        <section id="contact" class="py-24">
+            <div class="container mx-auto px-6 text-center">
+                 <div class="reveal">
+                    <div class="section-label mb-4">Contacto</div>
+                    <h2 class="section-heading text-5xl md:text-6xl font-bold leading-tight">
+                        Construyamos el<br> Próximo Gran Proyecto
+                    </h2>
+                    <p class="text-body max-w-xl mx-auto mt-6">
+                        Nuestro equipo está listo para analizar la viabilidad de tu idea. Contáctanos para agendar una consulta técnica.
+                    </p>
+                    <div class="mt-10">
+                        <a href="mailto:proyectos@nexus.ing" class="btn btn-primary text-lg"><span>proyectos@nexus.ing</span></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ──── FOOTER ────────────────────────────────────────── -->
+    <footer class="border-t border-blue-900/20 py-8 mt-16">
+        <div class="container mx-auto px-6 text-center text-sm text-body">
+            <p>&copy; <span id="year"></span> NEXUS Ingeniería Estructural. Todos los derechos reservados.</p>
+            <p class="mt-2">Una nueva era en la construcción.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                navbar.classList.toggle('scrolled', window.scrollY > 50);
+            }, { passive: true });
+
+            // Reveal on scroll
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal').forEach(el => {
+                revealObserver.observe(el);
+            });
+
+            // Counter animation
+            const animateCounter = (el) => {
+                const target = +el.dataset.target;
+                let current = 0;
+                const increment = target / 100;
+
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        el.innerText = Math.ceil(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        el.innerText = target;
+                    }
+                };
+                updateCounter();
+            };
+
+            const counterObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounter(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            document.querySelectorAll('.counter').forEach(el => {
+                counterObserver.observe(el);
+            });
+            
+            // Dynamic Year
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
+    </script>
+
+</body>
+</html>

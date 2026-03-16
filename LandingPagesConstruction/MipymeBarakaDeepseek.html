@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TERRA | Construcción de alto impacto</title>
+  <!-- Tailwind + fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <!-- Font Awesome icons (gratis) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Custom properties */
+    :root {
+      --bg-dark: #0c0c0c;
+      --bg-darker: #070707;
+      --surface: #141414;
+      --border-light: #262626;
+      --accent-primary: #f97316;    /* naranja quemado */
+      --accent-secondary: #0e4b5e;  /* azul petróleo */
+      --text-light: #f5f5f5;
+      --text-muted: #a3a3a3;
+      --font-display: 'Bebas Neue', cursive;
+      --font-body: 'Inter', sans-serif;
+    }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+    /* Scroll suave */
+    html { scroll-behavior: smooth; }
+
+    /* ===== PARTICLE CANVAS ===== */
+    #particle-canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* ===== BOTONES ===== */
+    .btn-primary {
+      background-color: var(--accent-primary);
+      color: #000;
+      font-weight: 700;
+      padding: 0.75rem 2rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border: none;
+      clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-primary:hover {
+      background-color: #e05f0e;
+      transform: translateY(-2px);
+      box-shadow: 0 20px 30px -10px rgba(249,115,22,0.4);
+    }
+    .btn-outline {
+      border: 1px solid var(--accent-primary);
+      background: transparent;
+      color: var(--text-light);
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+      transition: 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-outline:hover {
+      background-color: var(--accent-primary);
+      color: #000;
+      border-color: transparent;
+    }
+
+    /* ===== NAVBAR ===== */
+    #navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      transition: background 0.3s, backdrop-filter 0.3s;
+      padding: 1.2rem 0;
+    }
+    #navbar.scrolled {
+      background: rgba(12,12,12,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-light);
+      padding: 0.7rem 0;
+    }
+    .nav-link {
+      color: var(--text-muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-link:hover {
+      color: var(--accent-primary);
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent-primary);
+      transition: width 0.3s;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* ===== HERO ===== */
+    .hero-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      background: radial-gradient(ellipse at 70% 30%, #1f1f1f, var(--bg-darker));
+      overflow: hidden;
+    }
+    .hero-line {
+      position: absolute;
+      bottom: 15%;
+      left: 5%;
+      width: 2px;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--accent-primary), transparent);
+      animation: pulseLine 3s infinite;
+    }
+    @keyframes pulseLine {
+      0% { opacity: 0.2; height: 150px; }
+      50% { opacity: 1; height: 250px; }
+      100% { opacity: 0.2; height: 150px; }
+    }
+
+    /* ===== SECCIÓN CON FONDO DE TEXTURA ===== */
+    .section-texture {
+      background-image: radial-gradient(rgba(249,115,22,0.05) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+
+    /* ===== TARJETAS DE SERVICIO ===== */
+    .service-card {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      padding: 2rem 1.5rem;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      clip-path: polygon(20px 0, 100% 0, calc(100% - 20px) 100%, 0 100%);
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, transparent 70%, rgba(249,115,22,0.1) 100%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .service-card:hover {
+      transform: scale(1.02) translateY(-6px);
+      border-color: var(--accent-primary);
+      box-shadow: 0 30px 40px -20px rgba(249,115,22,0.3);
+    }
+    .service-card:hover::before {
+      opacity: 1;
+    }
+    .service-icon {
+      font-size: 2.5rem;
+      color: var(--accent-primary);
+      margin-bottom: 1.2rem;
+      transition: transform 0.3s;
+    }
+    .service-card:hover .service-icon {
+      transform: scale(1.1);
+    }
+
+    /* ===== PROYECTOS SLIDER ===== */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-item {
+      position: relative;
+      overflow: hidden;
+      clip-path: polygon(15px 0, 100% 0, calc(100% - 15px) 100%, 0 100%);
+      aspect-ratio: 4/3;
+    }
+    .project-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s;
+    }
+    .project-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(7,7,7,0.9) 0%, transparent 60%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .project-item:hover img {
+      transform: scale(1.1);
+    }
+    .project-item:hover .project-overlay {
+      opacity: 1;
+    }
+    .project-overlay h3 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: var(--accent-primary);
+      transform: translateY(20px);
+      transition: transform 0.3s 0.1s;
+    }
+    .project-item:hover .project-overlay h3 {
+      transform: translateY(0);
+    }
+    .project-overlay p {
+      transform: translateY(20px);
+      transition: transform 0.3s 0.2s;
+    }
+    .project-item:hover .project-overlay p {
+      transform: translateY(0);
+    }
+
+    /* ===== TIMELINE PROCESO ===== */
+    .process-timeline {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      position: relative;
+    }
+    .process-step {
+      flex: 1 1 180px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    .step-number {
+      width: 60px;
+      height: 60px;
+      background: transparent;
+      border: 2px solid var(--accent-primary);
+      color: var(--accent-primary);
+      font-family: var(--font-display);
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+      transition: all 0.3s;
+    }
+    .process-step:hover .step-number {
+      background: var(--accent-primary);
+      color: #000;
+      transform: scale(1.1);
+    }
+    .process-line {
+      position: absolute;
+      top: 30px;
+      left: 10%;
+      width: 80%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+      z-index: 1;
+    }
+
+    /* ===== TESTIMONIAL CARDS ===== */
+    .testimonial-card {
+      background: var(--surface);
+      border-left: 6px solid var(--accent-primary);
+      padding: 2rem;
+      box-shadow: 0 15px 30px -15px rgba(0,0,0,0.7);
+    }
+
+    /* ===== FORMULARIO MULTIPASO ===== */
+    .form-step {
+      display: none;
+    }
+    .form-step.active {
+      display: block;
+    }
+    .form-indicator {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .step-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 0;
+      background: var(--border-light);
+      transition: 0.3s;
+      clip-path: polygon(3px 0, 100% 0, calc(100% - 3px) 100%, 0 100%);
+    }
+    .step-dot.active {
+      background: var(--accent-primary);
+      transform: scale(1.3);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer-link {
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .footer-link:hover {
+      color: var(--accent-primary);
+    }
+
+    /* ===== REVEAL ON SCROLL ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s, transform 0.8s;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .hero-title { font-size: 4rem; }
+      .process-line { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar" class="w-full">
+  <div class="container mx-auto px-6 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="#inicio" class="text-3xl font-display tracking-wider text-white flex items-center gap-2">
+      <span class="text-[var(--accent-primary)]">⛊</span> TERRA
+    </a>
+
+    <!-- Desktop menu -->
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#inicio" class="nav-link">Inicio</a>
+      <a href="#nosotros" class="nav-link">Nosotros</a>
+      <a href="#servicios" class="nav-link">Servicios</a>
+      <a href="#proyectos" class="nav-link">Proyectos</a>
+      <a href="#proceso" class="nav-link">Proceso</a>
+      <a href="#contacto" class="nav-link">Contacto</a>
+    </div>
+
+    <!-- CTA desktop -->
+    <a href="#contacto" class="hidden md:flex btn-primary text-sm">
+      <i class="fas fa-hard-hat"></i> Cotizar
+    </a>
+
+    <!-- Hamburger mobile -->
+    <button id="menuToggle" class="md:hidden text-2xl text-white focus:outline-none">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobileMenu" class="md:hidden hidden flex-col bg-[var(--surface)] border-t border-[var(--border-light)] px-6 py-4 gap-3">
+    <a href="#inicio" class="nav-link py-2">Inicio</a>
+    <a href="#nosotros" class="nav-link py-2">Nosotros</a>
+    <a href="#servicios" class="nav-link py-2">Servicios</a>
+    <a href="#proyectos" class="nav-link py-2">Proyectos</a>
+    <a href="#proceso" class="nav-link py-2">Proceso</a>
+    <a href="#contacto" class="nav-link py-2">Contacto</a>
+    <a href="#contacto" class="btn-primary mt-2 text-center">Cotizar</a>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section id="inicio" class="hero-section">
+  <!-- Canvas de partículas (JS) -->
+  <canvas id="particle-canvas"></canvas>
+  <!-- Línea animada -->
+  <div class="hero-line"></div>
+
+  <div class="container mx-auto px-6 relative z-10">
+    <div class="max-w-3xl">
+      <span class="inline-block font-mono text-sm tracking-[0.3em] text-[var(--accent-primary)] mb-4 reveal">
+        <i class="fas fa-ruler-combined mr-2"></i>INGENIERÍA DE PRECISIÓN
+      </span>
+      <h1 class="font-display text-7xl md:text-8xl lg:text-9xl leading-[0.9] mb-6 reveal">
+        CONSTRUIMOS<br>EL<span class="text-[var(--accent-primary)]"> IMPACTO</span>
+      </h1>
+      <p class="text-lg md:text-xl text-[var(--text-muted)] max-w-xl mb-10 reveal">
+        Proyectos residenciales, comerciales e industriales con ejecución impecable, materiales de élite y plazos garantizados.
+      </p>
+      <div class="flex flex-wrap gap-4 reveal">
+        <a href="#contacto" class="btn-primary text-base">
+          <i class="fas fa-file-signature"></i> Solicitar presupuesto
+        </a>
+        <a href="#proyectos" class="btn-outline text-base">
+          <i class="fas fa-images"></i> Ver proyectos
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-xs text-[var(--text-muted)]">
+    <span class="font-mono">DESCUBRE</span>
+    <i class="fas fa-chevron-down animate-bounce"></i>
+  </div>
+</section>
+
+<!-- NOSOTROS -->
+<section id="nosotros" class="py-32 section-texture">
+  <div class="container mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <!-- Left -->
+      <div class="reveal">
+        <span class="font-mono text-sm tracking-[0.2em] text-[var(--accent-primary)]">▸ NUESTRA IDENTIDAD</span>
+        <h2 class="font-display text-5xl md:text-6xl mt-4 mb-6 leading-tight">
+          MÁS DE 25 AÑOS<br>FORJANDO <span class="text-[var(--accent-primary)]">CONFIANZA</span>
+        </h2>
+        <p class="text-[var(--text-muted)] mb-8 text-lg">
+          En TERRA no solo construimos estructuras; creamos espacios que perduran. Con un equipo multidisciplinario y procesos certificados, garantizamos excelencia en cada etapa.
+        </p>
+
+        <!-- Valores con íconos -->
+        <div class="grid grid-cols-2 gap-6">
+          <div class="flex items-center gap-3">
+            <i class="fas fa-medal text-3xl text-[var(--accent-primary)]"></i>
+            <span class="font-semibold">Calidad certificada</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <i class="fas fa-clock text-3xl text-[var(--accent-primary)]"></i>
+            <span class="font-semibold">Cumplimiento de plazos</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <i class="fas fa-users text-3xl text-[var(--accent-primary)]"></i>
+            <span class="font-semibold">Equipo certificado</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <i class="fas fa-shield-alt text-3xl text-[var(--accent-primary)]"></i>
+            <span class="font-semibold">Seguridad total</span>
+          </div>
+        </div>
+
+        <!-- Estadísticas -->
+        <div class="flex gap-8 mt-12">
+          <div>
+            <span class="font-display text-5xl text-[var(--accent-primary)]">320+</span>
+            <p class="text-xs tracking-widest text-[var(--text-muted)]">PROYECTOS</p>
+          </div>
+          <div>
+            <span class="font-display text-5xl text-[var(--accent-primary)]">25</span>
+            <p class="text-xs tracking-widest text-[var(--text-muted)]">AÑOS</p>
+          </div>
+          <div>
+            <span class="font-display text-5xl text-[var(--accent-primary)]">98%</span>
+            <p class="text-xs tracking-widest text-[var(--text-muted)]">SATISFACCIÓN</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: imagen conceptual (SVG o geométrico) -->
+      <div class="relative reveal">
+        <div class="absolute -top-6 -left-6 w-24 h-24 border-t-4 border-l-4 border-[var(--accent-primary)]"></div>
+        <div class="absolute -bottom-6 -right-6 w-24 h-24 border-b-4 border-r-4 border-[var(--accent-primary)]"></div>
+        <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop" alt="Construcción" class="w-full h-auto object-cover clip-path-[polygon(20px_0,100%_0,calc(100%-20px)_100%,0_100%)]">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section id="servicios" class="py-32 bg-[var(--bg-darker)]">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16 reveal">
+      <span class="font-mono text-sm tracking-[0.2em] text-[var(--accent-primary)]">▸ SERVICIOS INTEGRALES</span>
+      <h2 class="font-display text-5xl md:text-6xl mt-4">LO QUE HACEMOS</h2>
+      <p class="text-[var(--text-muted)] max-w-2xl mx-auto mt-6">Cubrimos todas las fases de tu proyecto, desde el concepto hasta la entrega llave en mano.</p>
+    </div>
+
+    <!-- Grid de servicios (16 cards) -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Card 1 -->
+      <div class="service-card reveal">
+        <div class="service-icon"><i class="fas fa-home"></i></div>
+        <h3 class="font-display text-2xl mb-2">Residencial</h3>
+        <p class="text-sm text-[var(--text-muted)]">Casas, dúplex, fraccionamientos de lujo.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><i class="fas fa-building"></i></div>
+        <h3 class="font-display text-2xl mb-2">Comercial</h3>
+        <p class="text-sm text-[var(--text-muted)]">Oficinas, centros comerciales, locales.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><i class="fas fa-warehouse"></i></div>
+        <h3 class="font-display text-2xl mb-2">Industrial</h3>
+        <p class="text-sm text-[var(--text-muted)]">Naves, plantas, bodegas industriales.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><i class="fas fa-pencil-ruler"></i></div>
+        <h3 class="font-display text-2xl mb-2">Remodelaciones</h3>
+        <p class="text-sm text-[var(--text-muted)]">Ampliaciones, renovación de espacios.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><i class="fas fa-drafting-compass"></i></div>
+        <h3 class="font-display text-2xl mb-2">Diseño arquitectónico</h3>
+        <p class="text-sm text-[var(--text-muted)]">Planos, renders, proyectos ejecutivos.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><i class="fas fa-trowel"></i></div>
+        <h3 class="font-display text-2xl mb-2">Obra civil</h3>
+        <p class="text-sm text-[var(--text-muted)]">Cimentaciones, estructuras, urbanización.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><i class="fas fa-tools"></i></div>
+        <h3 class="font-display text-2xl mb-2">Mantenimiento</h3>
+        <p class="text-sm text-[var(--text-muted)]">Preventivo y correctivo de edificios.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><i class="fas fa-bolt"></i></div>
+        <h3 class="font-display text-2xl mb-2">Instalaciones eléctricas</h3>
+        <p class="text-sm text-[var(--text-muted)]">Media/baja tensión, subestaciones.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><i class="fas fa-water"></i></div>
+        <h3 class="font-display text-2xl mb-2">Hidrosanitarias</h3>
+        <p class="text-sm text-[var(--text-muted)]">Agua potable, drenaje, pluvial.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><i class="fas fa-paint-roller"></i></div>
+        <h3 class="font-display text-2xl mb-2">Acabados</h3>
+        <p class="text-sm text-[var(--text-muted)]">Obra negra, gris, blanca, texturas.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><i class="fas fa-clipboard-list"></i></div>
+        <h3 class="font-display text-2xl mb-2">Supervisión</h3>
+        <p class="text-sm text-[var(--text-muted)]">Gestión y control de obra.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><i class="fas fa-calculator"></i></div>
+        <h3 class="font-display text-2xl mb-2">Asesoría técnica</h3>
+        <p class="text-sm text-[var(--text-muted)]">Presupuestos, viabilidad, permisos.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><i class="fas fa-key"></i></div>
+        <h3 class="font-display text-2xl mb-2">Llave en mano</h3>
+        <p class="text-sm text-[var(--text-muted)]">Proyecto integral sin preocupaciones.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><i class="fas fa-solar-panel"></i></div>
+        <h3 class="font-display text-2xl mb-2">Eficiencia energética</h3>
+        <p class="text-sm text-[var(--text-muted)]">Paneles solares, aislamientos.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><i class="fas fa-road"></i></div>
+        <h3 class="font-display text-2xl mb-2">Obra urbana</h3>
+        <p class="text-sm text-[var(--text-muted)]">Calles, banquetas, pavimentos.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><i class="fas fa-hard-hat"></i></div>
+        <h3 class="font-display text-2xl mb-2">Gestión de proyectos</h3>
+        <p class="text-sm text-[var(--text-muted)]">Coordinación integral.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROYECTOS / EXPERIENCIA -->
+<section id="proyectos" class="py-32">
+  <div class="container mx-auto px-6">
+    <div class="reveal mb-12">
+      <span class="font-mono text-sm tracking-[0.2em] text-[var(--accent-primary)]">▸ PROYECTOS DESTACADOS</span>
+      <h2 class="font-display text-5xl md:text-6xl mt-4">NUESTRA HUELLA</h2>
+    </div>
+
+    <!-- Grid de proyectos con overlay -->
+    <div class="projects-grid">
+      <div class="project-item reveal">
+        <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=2070&auto=format&fit=crop" alt="Edificio corporativo">
+        <div class="project-overlay">
+          <h3>TORRE EMPRESARIAL</h3>
+          <p class="text-sm">Monterrey · 22 niveles</p>
+        </div>
+      </div>
+      <div class="project-item reveal">
+        <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop" alt="Residencial">
+        <div class="project-overlay">
+          <h3>CONDOMINIOS LAKE</h3>
+          <p class="text-sm">Querétaro · 120 viviendas</p>
+        </div>
+      </div>
+      <div class="project-item reveal">
+        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2070&auto=format&fit=crop" alt="Nave industrial">
+        <div class="project-overlay">
+          <h3>PARQUE INDUSTRIAL</h3>
+          <p class="text-sm">Puebla · 15,000 m²</p>
+        </div>
+      </div>
+      <div class="project-item reveal">
+        <img src="https://images.unsplash.com/photo-1581092160562-40aa08e6c0b1?q=80&w=2070&auto=format&fit=crop" alt="Hotel">
+        <div class="project-overlay">
+          <h3>HOTEL BOUTIQUE</h3>
+          <p class="text-sm">Oaxaca · Restauración</p>
+        </div>
+      </div>
+      <div class="project-item reveal">
+        <img src="https://images.unsplash.com/photo-1600573472591-ee6981cf35b6?q=80&w=2070&auto=format&fit=crop" alt="Puente">
+        <div class="project-overlay">
+          <h3>VIADUCTO NORTE</h3>
+          <p class="text-sm">CDMX · Obra civil</p>
+        </div>
+      </div>
+      <div class="project-item reveal">
+        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2070&auto=format&fit=crop" alt="Ampliación">
+        <div class="project-overlay">
+          <h3>AMPLIACIÓN HOSPITAL</h3>
+          <p class="text-sm">Guadalajara · 6 pisos</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Estadísticas adicionales -->
+    <div class="flex flex-wrap justify-center gap-12 mt-20 reveal">
+      <div class="text-center">
+        <span class="font-display text-6xl text-[var(--accent-primary)]">320+</span>
+        <p class="text-sm tracking-widest">PROYECTOS</p>
+      </div>
+      <div class="text-center">
+        <span class="font-display text-6xl text-[var(--accent-primary)]">25</span>
+        <p class="text-sm tracking-widest">AÑOS</p>
+      </div>
+      <div class="text-center">
+        <span class="font-display text-6xl text-[var(--accent-primary)]">40+</span>
+        <p class="text-sm tracking-widest">PROFESIONALES</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESO DE TRABAJO (timeline) -->
+<section id="proceso" class="py-32 bg-[var(--surface)]">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16 reveal">
+      <span class="font-mono text-sm tracking-[0.2em] text-[var(--accent-primary)]">▸ METODOLOGÍA</span>
+      <h2 class="font-display text-5xl md:text-6xl mt-4">CÓMO TRABAJAMOS</h2>
+    </div>
+
+    <div class="process-timeline relative">
+      <div class="process-line"></div>
+
+      <div class="process-step reveal">
+        <div class="step-number">1</div>
+        <h3 class="font-display text-xl">CONTACTO</h3>
+        <p class="text-sm text-[var(--text-muted)]">Reunión inicial para entender tu visión.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-number">2</div>
+        <h3 class="font-display text-xl">PRESUPUESTO</h3>
+        <p class="text-sm text-[var(--text-muted)]">Detalle de costos y cronograma.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-number">3</div>
+        <h3 class="font-display text-xl">DISEÑO</h3>
+        <p class="text-sm text-[var(--text-muted)]">Planos y renders aprobados.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-number">4</div>
+        <h3 class="font-display text-xl">EJECUCIÓN</h3>
+        <p class="text-sm text-[var(--text-muted)]">Obra con supervisión constante.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-number">5</div>
+        <h3 class="font-display text-xl">ENTREGA</h3>
+        <p class="text-sm text-[var(--text-muted)]">Garantía y documentación final.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section id="testimonios" class="py-32">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16 reveal">
+      <span class="font-mono text-sm tracking-[0.2em] text-[var(--accent-primary)]">▸ CLIENTES</span>
+      <h2 class="font-display text-5xl md:text-6xl mt-4">TESTIMONIOS</h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="testimonial-card reveal">
+        <i class="fas fa-quote-left text-4xl text-[var(--accent-primary)] opacity-30 mb-4"></i>
+        <p class="text-[var(--text-muted)] mb-6">"La construcción de nuestra planta industrial se entregó antes de tiempo y con la calidad pactada. Profesionales de primer nivel."</p>
+        <p class="font-bold">Carlos Mendoza</p>
+        <p class="text-xs text-[var(--text-muted)]">Director de Operaciones · Grupo IND</p>
+      </div>
+      <div class="testimonial-card reveal">
+        <i class="fas fa-quote-left text-4xl text-[var(--accent-primary)] opacity-30 mb-4"></i>
+        <p class="text-[var(--text-muted)] mb-6">"Nuestra casa soñada, hecha realidad. El equipo de TERRA nos acompañó en cada decisión. Totalmente recomendables."</p>
+        <p class="font-bold">Ana y Luis</p>
+        <p class="text-xs text-[var(--text-muted)]">Clientes residenciales</p>
+      </div>
+      <div class="testimonial-card reveal">
+        <i class="fas fa-quote-left text-4xl text-[var(--accent-primary)] opacity-30 mb-4"></i>
+        <p class="text-[var(--text-muted)] mb-6">"La remodelación de nuestras oficinas quedó espectacular. Respetaron el presupuesto y el plazo. Sin duda volveremos a contratarlos."</p>
+        <p class="font-bold">Mariana Soto</p>
+        <p class="text-xs text-[var(--text-muted)]">Gerente de Recursos · Consultora Nexum</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="py-24 bg-[var(--accent-primary)] text-black">
+  <div class="container mx-auto px-6 text-center">
+    <h2 class="font-display text-5xl md:text-7xl mb-6 reveal">¿LISTO PARA CONSTRUIR?</h2>
+    <p class="text-xl mb-10 max-w-2xl mx-auto reveal">Solicita una cotización sin compromiso. Te contactaremos en menos de 24 horas.</p>
+    <a href="#contacto" class="bg-black text-white px-10 py-4 font-bold text-lg tracking-widest inline-flex items-center gap-3 hover:bg-gray-900 transition clip-path-[polygon(12px_0,100%_0,calc(100%-12px)_100%,0_100%)] reveal">
+      <i class="fas fa-phone-alt"></i> PIDE TU PRESUPUESTO
+    </a>
+  </div>
+</section>
+
+<!-- CONTACTO (formulario multipaso) -->
+<section id="contacto" class="py-32 bg-[var(--bg-darker)]">
+  <div class="container mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-16">
+      <!-- Info izquierda -->
+      <div class="reveal">
+        <span class="font-mono text-sm tracking-[0.2em] text-[var(--accent-primary)]">▸ COMUNICACIÓN</span>
+        <h2 class="font-display text-5xl md:text-6xl mt-4 mb-6">HABLEMOS</h2>
+        <p class="text-[var(--text-muted)] text-lg mb-8">Estamos listos para escuchar tu proyecto y ofrecerte la mejor solución.</p>
+
+        <div class="space-y-4">
+          <div class="flex items-center gap-4">
+            <i class="fas fa-map-marker-alt text-2xl text-[var(--accent-primary)] w-8"></i>
+            <span>Av. Construcción 123, Monterrey, N.L.</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <i class="fas fa-phone-alt text-2xl text-[var(--accent-primary)] w-8"></i>
+            <span>+52 (81) 2345 6789</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <i class="fas fa-envelope text-2xl text-[var(--accent-primary)] w-8"></i>
+            <span>contacto@terra.mx</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <i class="fab fa-whatsapp text-2xl text-[var(--accent-primary)] w-8"></i>
+            <span>+52 81 9876 5432</span>
+          </div>
+        </div>
+
+        <a href="https://wa.me/528198765432" target="_blank" class="inline-flex items-center gap-3 mt-10 bg-[#25D366] text-white px-6 py-3 font-bold clip-path-[polygon(8px_0,100%_0,calc(100%-8px)_100%,0_100%)] hover:bg-[#20b859] transition">
+          <i class="fab fa-whatsapp text-xl"></i> ESCRIBENOS POR WHATSAPP
+        </a>
+      </div>
+
+      <!-- Formulario derecha (multipaso) -->
+      <div class="reveal">
+        <div class="bg-[var(--surface)] p-8 border border-[var(--border-light)] clip-path-[polygon(20px_0,100%_0,calc(100%-20px)_100%,0_100%)]">
+          <!-- Indicador de pasos -->
+          <div class="form-indicator">
+            <span class="step-dot active" data-step="1"></span>
+            <span class="step-dot" data-step="2"></span>
+            <span class="step-dot" data-step="3"></span>
+          </div>
+
+          <form id="multiStepForm">
+            <!-- Paso 1: Datos básicos -->
+            <div class="form-step active" id="step1">
+              <h3 class="font-display text-2xl mb-6">Paso 1: Tus datos</h3>
+              <div class="space-y-4">
+                <input type="text" placeholder="Nombre completo *" class="w-full bg-[var(--bg-dark)] border border-[var(--border-light)] p-3 text-white focus:border-[var(--accent-primary)] outline-none" id="nombre" required>
+                <input type="email" placeholder="Correo electrónico *" class="w-full bg-[var(--bg-dark)] border border-[var(--border-light)] p-3 text-white focus:border-[var(--accent-primary)] outline-none" id="email" required>
+                <input type="tel" placeholder="Teléfono" class="w-full bg-[var(--bg-dark)] border border-[var(--border-light)] p-3 text-white focus:border-[var(--accent-primary)] outline-none" id="telefono">
+              </div>
+              <button type="button" class="btn-primary w-full mt-6" onclick="nextStep(2)">Siguiente <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <!-- Paso 2: Tipo de proyecto -->
+            <div class="form-step" id="step2">
+              <h3 class="font-display text-2xl mb-6">Paso 2: Tu proyecto</h3>
+              <div class="space-y-4">
+                <select class="w-full bg-[var(--bg-dark)] border border-[var(--border-light)] p-3 text-white focus:border-[var(--accent-primary)] outline-none" id="tipo">
+                  <option value="" disabled selected>Selecciona un servicio</option>
+                  <option>Construcción residencial</option>
+                  <option>Construcción comercial</option>
+                  <option>Industrial</option>
+                  <option>Remodelación</option>
+                  <option>Diseño arquitectónico</option>
+                  <option>Otro</option>
+                </select>
+                <textarea placeholder="Cuéntanos brevemente tu idea *" class="w-full bg-[var(--bg-dark)] border border-[var(--border-light)] p-3 text-white focus:border-[var(--accent-primary)] outline-none" rows="4" id="mensaje" required></textarea>
+              </div>
+              <div class="flex gap-4 mt-6">
+                <button type="button" class="btn-outline flex-1" onclick="prevStep(1)"><i class="fas fa-arrow-left"></i> Atrás</button>
+                <button type="button" class="btn-primary flex-1" onclick="nextStep(3)">Siguiente</button>
+              </div>
+            </div>
+
+            <!-- Paso 3: Confirmación y envío -->
+            <div class="form-step" id="step3">
+              <h3 class="font-display text-2xl mb-6">Paso 3: Confirmar</h3>
+              <p class="text-[var(--text-muted)] mb-6">Revisa que tus datos sean correctos y acepta el aviso de privacidad.</p>
+              <label class="flex items-start gap-3 text-sm">
+                <input type="checkbox" id="privacy" class="mt-1 accent-[var(--accent-primary)]" required>
+                <span>Acepto el <a href="#" class="text-[var(--accent-primary)] underline">Aviso de Privacidad</a> y que me contacten.</span>
+              </label>
+              <div class="flex gap-4 mt-8">
+                <button type="button" class="btn-outline flex-1" onclick="prevStep(2)">Atrás</button>
+                <button type="submit" class="btn-primary flex-1">Enviar solicitud</button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Mensajes de éxito/error (ocultos) -->
+          <div id="formSuccess" class="hidden mt-4 p-4 border border-green-500 text-green-400">✓ ¡Mensaje enviado! Te contactaremos pronto.</div>
+          <div id="formError" class="hidden mt-4 p-4 border border-red-500 text-red-400">✕ Completa todos los campos requeridos.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-[var(--border-light)] py-16">
+  <div class="container mx-auto px-6">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-8 mb-12">
+      <a href="#inicio" class="text-4xl font-display text-white flex items-center gap-2">
+        <span class="text-[var(--accent-primary)]">⛊</span> TERRA
+      </a>
+      <div class="flex gap-6">
+        <a href="#" class="footer-link"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="footer-link"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="footer-link"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="footer-link"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-4 gap-8 text-sm">
+      <div>
+        <h4 class="font-bold text-[var(--accent-primary)] mb-4">EXPLORA</h4>
+        <ul class="space-y-2">
+          <li><a href="#inicio" class="footer-link">Inicio</a></li>
+          <li><a href="#nosotros" class="footer-link">Nosotros</a></li>
+          <li><a href="#servicios" class="footer-link">Servicios</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-[var(--accent-primary)] mb-4">PROYECTOS</h4>
+        <ul class="space-y-2">
+          <li><a href="#proyectos" class="footer-link">Residencial</a></li>
+          <li><a href="#proyectos" class="footer-link">Comercial</a></li>
+          <li><a href="#proyectos" class="footer-link">Industrial</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-[var(--accent-primary)] mb-4">LEGAL</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="footer-link">Aviso de privacidad</a></li>
+          <li><a href="#" class="footer-link">Términos y condiciones</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-[var(--accent-primary)] mb-4">CONTACTO</h4>
+        <ul class="space-y-2 text-[var(--text-muted)]">
+          <li>contacto@terra.mx</li>
+          <li>+52 81 2345 6789</li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-[var(--border-light)] mt-12 pt-8 text-center text-xs text-[var(--text-muted)]">
+      © 2025 TERRA Construcciones. Todos los derechos reservados.
+    </div>
+  </div>
+</footer>
+
+<!-- Botón flotante WhatsApp -->
+<a href="https://wa.me/528198765432" target="_blank" class="fixed bottom-6 right-6 bg-[#25D366] w-14 h-14 rounded-full flex items-center justify-center text-white text-2xl shadow-xl hover:scale-110 transition z-50">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- JavaScript -->
+<script>
+  // Navbar scroll
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Mobile menu toggle
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuToggle.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+    const icon = menuToggle.querySelector('i');
+    icon.classList.toggle('fa-bars');
+    icon.classList.toggle('fa-times');
+  });
+
+  // Partículas en hero
+  const canvas = document.getElementById('particle-canvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+
+    function initCanvas() {
+      width = window.innerWidth;
+      height = document.querySelector('.hero-section').offsetHeight;
+      canvas.width = width;
+      canvas.height = height;
+      particles = [];
+      for (let i = 0; i < 60; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size: Math.random() * 1.5 + 0.5,
+          speedX: (Math.random() - 0.5) * 0.2,
+          speedY: (Math.random() - 0.5) * 0.1,
+        });
+      }
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = '#f97316';
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(249,115,22,0.7)';
+        ctx.fill();
+        p.x += p.speedX;
+        p.y += p.speedY;
+        if (p.x < 0 || p.x > width) p.speedX *= -1;
+        if (p.y < 0 || p.y > height) p.speedY *= -1;
+      });
+      requestAnimationFrame(drawParticles);
+    }
+
+    window.addEventListener('resize', () => {
+      initCanvas();
+    });
+    initCanvas();
+    drawParticles();
+  }
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+  reveals.forEach(r => revealObserver.observe(r));
+
+  // Formulario multipaso
+  let currentStep = 1;
+  function showStep(step) {
+    document.querySelectorAll('.form-step').forEach((el, index) => {
+      el.classList.toggle('active', index + 1 === step);
+    });
+    document.querySelectorAll('.step-dot').forEach((dot, index) => {
+      dot.classList.toggle('active', index + 1 === step);
+    });
+    currentStep = step;
+  }
+  window.nextStep = (step) => {
+    if (step === 2) {
+      // Validar paso 1
+      const nombre = document.getElementById('nombre').value.trim();
+      const email = document.getElementById('email').value.trim();
+      if (!nombre || !email) {
+        alert('Por favor ingresa nombre y correo');
+        return;
+      }
+    }
+    showStep(step);
+  };
+  window.prevStep = (step) => {
+    showStep(step);
+  };
+
+  // Manejo del envío del formulario (simulado)
+  document.getElementById('multiStepForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    // Validar paso 3 (checkbox)
+    const privacy = document.getElementById('privacy').checked;
+    if (!privacy) {
+      document.getElementById('formError').classList.remove('hidden');
+      document.getElementById('formSuccess').classList.add('hidden');
+      return;
+    }
+    // Aquí iría fetch a backend, simulamos éxito
+    document.getElementById('formSuccess').classList.remove('hidden');
+    document.getElementById('formError').classList.add('hidden');
+    // Resetear formulario después de 2 segundos
+    setTimeout(() => {
+      this.reset();
+      showStep(1);
+      document.getElementById('formSuccess').classList.add('hidden');
+    }, 3000);
+  });
+
+  // Cerrar menú móvil al hacer clic en enlace
+  document.querySelectorAll('#mobileMenu a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      const icon = menuToggle.querySelector('i');
+      icon.classList.add('fa-bars');
+      icon.classList.remove('fa-times');
+    });
+  });
+
+  // Suavizado de scroll para enlaces internos
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (href === '#') return;
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

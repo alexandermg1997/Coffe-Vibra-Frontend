@@ -1,0 +1,400 @@
+<!-- index.html -->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Construcciones [Nombre] — Calidad y Precisión</title>
+  <meta name="description" content="Empresa de construcción residencial, comercial e industrial. Proyectos llave en mano, diseño, obra civil y mantenimiento." />
+  <meta name="theme-color" content="#0F4C81" />
+  <!-- Open Graph básico -->
+  <meta property="og:title" content="Construcciones [Nombre] — Calidad y Precisión" />
+  <meta property="og:description" content="Proyectos residenciales, comerciales e industriales. Solicita tu cotización." />
+  <meta property="og:type" content="website" />
+  <!-- Tailwind CDN (desarrollo / prototipo). Para producción compilar Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Pequeñas personalizaciones */
+    :root{
+      --primary:#0F4C81;
+      --accent:#F59E0B;
+      --muted:#6B7280;
+    }
+    /* Smooth reveal */
+    .reveal { opacity:0; transform: translateY(12px); transition: all .6s ease-out; }
+    .reveal.visible { opacity:1; transform: translateY(0); }
+  </style>
+</head>
+<body class="bg-white text-gray-900 antialiased leading-relaxed">
+  <!-- Header / Nav -->
+  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav class="flex items-center justify-between h-16">
+        <a href="#" class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-[var(--primary)] text-white flex items-center justify-center font-bold rounded">C</div>
+          <span class="font-semibold text-lg">Construcciones <span class="text-[var(--muted)]">[Nombre]</span></span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="#servicios" class="text-sm hover:text-[var(--primary)]">Servicios</a>
+          <a href="#proyectos" class="text-sm hover:text-[var(--primary)]">Proyectos</a>
+          <a href="#contacto" class="text-sm hover:text-[var(--primary)]">Contacto</a>
+          <a href="#contacto" class="ml-4 inline-flex items-center px-4 py-2 bg-[var(--primary)] text-white rounded shadow hover:opacity-95">Solicita tu cotización</a>
+        </div>
+        <!-- Mobile menu button -->
+        <button id="btn-mobile" class="md:hidden p-2 rounded focus:outline-none" aria-label="Abrir menú">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </nav>
+    </div>
+    <!-- Mobile nav -->
+    <div id="mobile-nav" class="md:hidden hidden border-t">
+      <div class="px-4 py-3 space-y-2">
+        <a href="#servicios" class="block">Servicios</a>
+        <a href="#proyectos" class="block">Proyectos</a>
+        <a href="#contacto" class="block">Contacto</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Hero -->
+    <section class="pt-8 pb-12 md:pt-16 md:pb-20">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div class="reveal">
+          <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">Construimos el futuro con calidad y precisión</h1>
+          <p class="mt-4 text-gray-700 max-w-xl">Proyectos residenciales, comerciales e industriales. Entregas a tiempo, seguridad y soluciones llave en mano.</p>
+          <div class="mt-6 flex gap-3">
+            <a href="#contacto" class="inline-flex items-center px-5 py-3 bg-[var(--primary)] text-white rounded shadow">Solicita tu cotización</a>
+            <a href="#proyectos" class="inline-flex items-center px-5 py-3 border border-gray-200 rounded text-gray-700">Ver proyectos</a>
+          </div>
+          <ul class="mt-6 flex flex-wrap gap-4 text-sm text-[var(--muted)]">
+            <li>✔️ Experiencia comprobada</li>
+            <li>✔️ Equipo certificado</li>
+            <li>✔️ Garantía en obra</li>
+          </ul>
+        </div>
+        <div class="reveal">
+          <!-- Placeholder visual: usar imagen real en producción -->
+          <div class="w-full h-64 md:h-80 bg-gray-100 rounded-lg flex items-center justify-center border">
+            <svg class="w-24 h-24 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7h18M5 7v10a2 2 0 002 2h10a2 2 0 002-2V7"/></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sobre Nosotros -->
+    <section id="sobre" class="py-8 border-t">
+      <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+        <div>
+          <h2 class="text-2xl font-semibold">Sobre Nosotros</h2>
+          <p class="mt-3 text-gray-700">Más de <strong>15 años</strong> entregando proyectos con estándares internacionales de calidad y seguridad.</p>
+        </div>
+        <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="p-4 bg-gray-50 rounded">
+            <h3 class="font-semibold">Calidad y Seguridad</h3>
+            <p class="text-sm text-[var(--muted)] mt-2">Protocolos certificados y controles en obra.</p>
+          </div>
+          <div class="p-4 bg-gray-50 rounded">
+            <h3 class="font-semibold">Equipo Profesional</h3>
+            <p class="text-sm text-[var(--muted)] mt-2">Ingenieros, arquitectos y supervisores certificados.</p>
+          </div>
+          <div class="p-4 bg-gray-50 rounded">
+            <h3 class="font-semibold">Garantía</h3>
+            <p class="text-sm text-[var(--muted)] mt-2">Soporte post-entrega y mantenimiento.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Servicios -->
+    <section id="servicios" class="py-8">
+      <h2 class="text-2xl font-semibold reveal">Servicios</h2>
+      <p class="text-[var(--muted)] mt-2 reveal">Soluciones integrales para proyectos de cualquier escala.</p>
+      <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Repetir tarjeta por servicio -->
+        <article class="reveal p-5 border rounded-lg bg-white">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-[var(--primary)] text-white rounded flex items-center justify-center">🏠</div>
+            <div>
+              <h3 class="font-semibold">Construcción residencial</h3>
+              <p class="text-sm text-[var(--muted)] mt-1">Viviendas unifamiliares y multifamiliares con acabados a medida.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="reveal p-5 border rounded-lg bg-white">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-[var(--primary)] text-white rounded flex items-center justify-center">🏢</div>
+            <div>
+              <h3 class="font-semibold">Construcción comercial e industrial</h3>
+              <p class="text-sm text-[var(--muted)] mt-1">Naves industriales, locales comerciales y oficinas.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="reveal p-5 border rounded-lg bg-white">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-[var(--primary)] text-white rounded flex items-center justify-center">🔧</div>
+            <div>
+              <h3 class="font-semibold">Remodelaciones y ampliaciones</h3>
+              <p class="text-sm text-[var(--muted)] mt-1">Adaptaciones funcionales y estéticas con mínima interrupción.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="reveal p-5 border rounded-lg bg-white">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-[var(--primary)] text-white rounded flex items-center justify-center">📐</div>
+            <div>
+              <h3 class="font-semibold">Diseño arquitectónico</h3>
+              <p class="text-sm text-[var(--muted)] mt-1">Propuestas integrales desde concepto hasta planos ejecutivos.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="reveal p-5 border rounded-lg bg-white">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-[var(--primary)] text-white rounded flex items-center justify-center">🏗️</div>
+            <div>
+              <h3 class="font-semibold">Obra civil</h3>
+              <p class="text-sm text-[var(--muted)] mt-1">Infraestructura, cimentaciones y estructuras.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="reveal p-5 border rounded-lg bg-white">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-[var(--primary)] text-white rounded flex items-center justify-center">🛠️</div>
+            <div>
+              <h3 class="font-semibold">Mantenimiento e instalaciones</h3>
+              <p class="text-sm text-[var(--muted)] mt-1">Eléctricas, hidráulicas, acabados y mantenimiento preventivo.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="reveal p-5 border rounded-lg bg-white">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-[var(--primary)] text-white rounded flex items-center justify-center">🔎</div>
+            <div>
+              <h3 class="font-semibold">Supervisión y gestión de proyectos</h3>
+              <p class="text-sm text-[var(--muted)] mt-1">Control de calidad, tiempos y costos.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="reveal p-5 border rounded-lg bg-white">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-[var(--primary)] text-white rounded flex items-center justify-center">🧾</div>
+            <div>
+              <h3 class="font-semibold">Asesoría técnica y presupuestos</h3>
+              <p class="text-sm text-[var(--muted)] mt-1">Estimaciones claras y estudios técnicos.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="reveal p-5 border rounded-lg bg-white">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-[var(--primary)] text-white rounded flex items-center justify-center">🔑</div>
+            <div>
+              <h3 class="font-semibold">Construcción llave en mano</h3>
+              <p class="text-sm text-[var(--muted)] mt-1">Entrega integral lista para uso.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Proyectos / Estadísticas -->
+    <section id="proyectos" class="py-8 border-t">
+      <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+        <div>
+          <h2 class="text-2xl font-semibold">Proyectos y experiencia</h2>
+          <p class="text-[var(--muted)] mt-2">Resultados medibles y clientes satisfechos.</p>
+          <div class="mt-4 grid grid-cols-3 gap-3 text-center">
+            <div>
+              <div class="text-2xl font-bold">+120</div>
+              <div class="text-sm text-[var(--muted)]">Proyectos completados</div>
+            </div>
+            <div>
+              <div class="text-2xl font-bold">98%</div>
+              <div class="text-sm text-[var(--muted)]">Satisfacción</div>
+            </div>
+            <div>
+              <div class="text-2xl font-bold">15</div>
+              <div class="text-sm text-[var(--muted)]">Años de experiencia</div>
+            </div>
+          </div>
+        </div>
+        <div class="md:col-span-2">
+          <!-- Galería ligera: imágenes en grid -->
+          <div class="grid grid-cols-2 gap-3">
+            <div class="h-36 bg-gray-100 rounded"></div>
+            <div class="h-36 bg-gray-100 rounded"></div>
+            <div class="h-36 bg-gray-100 rounded"></div>
+            <div class="h-36 bg-gray-100 rounded"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Proceso de trabajo -->
+    <section class="py-8">
+      <h2 class="text-2xl font-semibold reveal">Nuestro proceso</h2>
+      <ol class="mt-6 grid grid-cols-1 sm:grid-cols-4 gap-4 text-sm">
+        <li class="reveal p-4 border rounded">1. Contacto inicial</li>
+        <li class="reveal p-4 border rounded">2. Estudio y presupuesto</li>
+        <li class="reveal p-4 border rounded">3. Ejecución y supervisión</li>
+        <li class="reveal p-4 border rounded">4. Entrega y garantía</li>
+      </ol>
+    </section>
+
+    <!-- Testimonios -->
+    <section class="py-8 border-t">
+      <h2 class="text-2xl font-semibold reveal">Testimonios</h2>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <blockquote class="reveal p-4 border rounded bg-gray-50">
+          <p class="text-[var(--muted)]">"Excelente trabajo, entregaron antes de tiempo y con gran calidad."</p>
+          <footer class="mt-3 text-sm font-semibold">— Cliente A</footer>
+        </blockquote>
+        <blockquote class="reveal p-4 border rounded bg-gray-50">
+          <p class="text-[var(--muted)]">"Profesionales y muy buena comunicación durante todo el proyecto."</p>
+          <footer class="mt-3 text-sm font-semibold">— Cliente B</footer>
+        </blockquote>
+        <blockquote class="reveal p-4 border rounded bg-gray-50">
+          <p class="text-[var(--muted)]">"Recomendados para proyectos industriales."</p>
+          <footer class="mt-3 text-sm font-semibold">— Cliente C</footer>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- CTA final -->
+    <section class="py-8">
+      <div class="reveal bg-[var(--primary)] text-white rounded-lg p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <h3 class="text-xl font-semibold">Listos para empezar tu proyecto</h3>
+          <p class="text-sm mt-1">Solicita una visita técnica y cotización sin compromiso.</p>
+        </div>
+        <div class="flex gap-3">
+          <a href="#contacto" class="px-4 py-2 bg-white text-[var(--primary)] rounded">Solicitar cotización</a>
+          <a href="tel:+521XXXXXXXXXX" class="px-4 py-2 border border-white rounded">Llámanos</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="py-8 border-t">
+      <h2 class="text-2xl font-semibold reveal">Contacto</h2>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form id="contact-form" class="reveal space-y-4" novalidate>
+          <div>
+            <label for="name" class="block text-sm font-medium">Nombre</label>
+            <input id="name" name="name" required class="mt-1 block w-full border rounded px-3 py-2" />
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium">Correo</label>
+            <input id="email" name="email" type="email" required class="mt-1 block w-full border rounded px-3 py-2" />
+          </div>
+          <div>
+            <label for="service" class="block text-sm font-medium">Servicio de interés</label>
+            <select id="service" name="service" class="mt-1 block w-full border rounded px-3 py-2">
+              <option>Construcción residencial</option>
+              <option>Comercial e industrial</option>
+              <option>Remodelaciones</option>
+              <option>Asesoría y presupuesto</option>
+            </select>
+          </div>
+          <div>
+            <label for="message" class="block text-sm font-medium">Mensaje</label>
+            <textarea id="message" name="message" rows="4" class="mt-1 block w-full border rounded px-3 py-2"></textarea>
+          </div>
+          <div>
+            <button type="submit" class="inline-flex items-center px-4 py-2 bg-[var(--primary)] text-white rounded">Enviar</button>
+            <a href="https://wa.me/521XXXXXXXXXX" class="ml-3 inline-flex items-center px-4 py-2 border rounded">WhatsApp</a>
+          </div>
+        </form>
+
+        <div class="reveal space-y-4">
+          <div>
+            <h3 class="font-semibold">Teléfono</h3>
+            <p class="text-[var(--muted)]">+52 1 (XXX) XXX-XXXX</p>
+          </div>
+          <div>
+            <h3 class="font-semibold">Correo</h3>
+            <p class="text-[var(--muted)]">contacto@construcciones.com</p>
+          </div>
+          <div>
+            <h3 class="font-semibold">Ubicación</h3>
+            <p class="text-[var(--muted)]">Hermosillo, Sonora, México</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-12 border-t">
+    <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col md:flex-row justify-between items-center text-sm text-[var(--muted)]">
+      <div>© <span id="year"></span> Construcciones [Nombre]. Todos los derechos reservados.</div>
+      <div class="flex gap-4 mt-3 md:mt-0">
+        <a href="#" aria-label="Facebook">FB</a>
+        <a href="#" aria-label="LinkedIn">IN</a>
+        <a href="#" aria-label="Instagram">IG</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JSON-LD Organization (SEO) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"Construcciones [Nombre]",
+    "url":"https://tusitio.com",
+    "telephone":"+521XXXXXXXXXX",
+    "address":{
+      "@type":"PostalAddress",
+      "addressLocality":"Hermosillo",
+      "addressRegion":"Sonora",
+      "addressCountry":"MX"
+    }
+  }
+  </script>
+
+  <!-- JavaScript: interactividad ligera y accesibilidad -->
+  <script>
+    // Header mobile toggle
+    const btnMobile = document.getElementById('btn-mobile');
+    const mobileNav = document.getElementById('mobile-nav');
+    btnMobile.addEventListener('click', () => {
+      mobileNav.classList.toggle('hidden');
+    });
+
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Simple form handling (mock)
+    const form = document.getElementById('contact-form');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Basic validation
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      if (!name || !email) {
+        alert('Por favor completa nombre y correo.');
+        return;
+      }
+      // Simular envío ligero (reemplazar por fetch a API)
+      alert('Gracias, tu mensaje ha sido enviado. Nos contactaremos pronto.');
+      form.reset();
+    });
+
+    // Reveal on scroll using IntersectionObserver
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, {threshold: 0.12});
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

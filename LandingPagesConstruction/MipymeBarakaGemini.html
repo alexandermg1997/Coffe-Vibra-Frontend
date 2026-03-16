@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VÉRTICE | Constructora Boutique & Arquitectura</title>
+  <meta name="description" content="Firma de arquitectura y construcción de alto perfil. Especialistas en obra industrial, comercial y residencial premium.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            serif: ['Instrument Serif', 'serif'],
+          },
+          colors: {
+            noir: '#0a0a0a',
+            graphite: '#161616',
+            alabaster: '#F4F0EA',
+            terracotta: '#B85C38',
+            terracottaLight: '#D47A56',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Reset & Base */
+    html { scroll-behavior: smooth; background-color: #0a0a0a; }
+    body { color: #F4F0EA; overflow-x: hidden; cursor: default; }
+    ::selection { background: #B85C38; color: #F4F0EA; }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #0a0a0a; }
+    ::-webkit-scrollbar-thumb { background: #333; }
+    ::-webkit-scrollbar-thumb:hover { background: #B85C38; }
+
+    /* Typography Tweaks */
+    .text-balance { text-wrap: balance; }
+    .display-text { font-family: 'Instrument Serif', serif; line-height: 1; }
+
+    /* Hero Slow Zoom */
+    @keyframes slowZoom {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.15); }
+    }
+    .hero-bg-anim {
+      animation: slowZoom 25s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+
+    /* Scroll Animations */
+    .reveal-mask {
+      clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+      transition: clip-path 1.4s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+    .reveal-mask.is-visible {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    /* FIX: Nueva animación simple para textos que fallaban con clip-path */
+    .fade-up-single {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s ease, transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+    .fade-up-single.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-up-stagger > * {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease, transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+    .fade-up-stagger.is-visible > * {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-up-stagger.is-visible > *:nth-child(1) { transition-delay: 0.1s; }
+    .fade-up-stagger.is-visible > *:nth-child(2) { transition-delay: 0.2s; }
+    .fade-up-stagger.is-visible > *:nth-child(3) { transition-delay: 0.3s; }
+
+    /* Menu Overlay */
+    #menu-overlay {
+      clip-path: inset(0 0 100% 0);
+      transition: clip-path 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+    #menu-overlay.open { clip-path: inset(0 0 0 0); }
+
+    /* Image Follow Cursor Effect (Premium UX) */
+    .service-item {
+      border-bottom: 1px solid rgba(244, 240, 234, 0.1);
+      position: relative;
+    }
+    .service-item .service-title {
+      transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), color 0.3s ease;
+    }
+    .service-item:hover .service-title {
+      transform: translateX(30px);
+      color: #B85C38;
+      font-style: italic;
+    }
+    
+    #cursor-follower {
+      position: fixed;
+      top: 0; left: 0;
+      width: 450px; height: 300px;
+      pointer-events: none;
+      z-index: 20;
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.8);
+      transition: opacity 0.4s ease, transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+      overflow: hidden;
+    }
+    #cursor-follower.active {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    #cursor-follower img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: grayscale(40%);
+    }
+
+    /* Floating Input Labels */
+    .input-group { position: relative; margin-bottom: 2.5rem; }
+    .input-field {
+      width: 100%; background: transparent; border: none;
+      border-bottom: 1px solid rgba(244, 240, 234, 0.3);
+      padding: 1rem 0; color: #F4F0EA; font-size: 1.1rem;
+      outline: none; transition: border-color 0.3s;
+    }
+    .input-field:focus { border-bottom-color: #B85C38; }
+    .input-label {
+      position: absolute; left: 0; top: 1rem;
+      color: rgba(244, 240, 234, 0.5); font-size: 1.1rem;
+      pointer-events: none; transition: all 0.3s ease;
+    }
+    .input-field:focus ~ .input-label,
+    .input-field:valid ~ .input-label {
+      top: -1rem; font-size: 0.75rem; color: #B85C38; letter-spacing: 0.1em; text-transform: uppercase;
+    }
+
+    /* Giant Footer Text */
+    .footer-huge {
+      font-size: 18vw;
+      line-height: 0.8;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(244, 240, 234, 0.1);
+      transition: -webkit-text-stroke 0.5s ease, color 0.5s ease;
+    }
+    .footer-huge:hover {
+      color: #B85C38;
+      -webkit-text-stroke: 1px #B85C38;
+    }
+  </style>
+</head>
+<body class="bg-noir">
+
+  <div id="cursor-follower">
+    <img src="" alt="Proyecto" id="cursor-img">
+  </div>
+
+  <header class="fixed w-full top-0 z-50 px-6 py-6 md:px-12 flex justify-between items-center mix-blend-difference">
+    <a href="#" class="display-text text-3xl tracking-wide text-alabaster">Vértice.</a>
+    
+    <button id="menu-toggle" class="group flex items-center gap-4 focus:outline-none">
+      <span class="text-[0.65rem] tracking-[0.2em] uppercase font-semibold text-alabaster group-hover:text-terracotta transition-colors">Menú</span>
+      <div class="flex flex-col gap-[6px]">
+        <span class="block w-8 h-[1px] bg-alabaster group-hover:bg-terracotta transition-colors"></span>
+        <span class="block w-5 h-[1px] bg-alabaster group-hover:bg-terracotta transition-colors ml-auto"></span>
+      </div>
+    </button>
+  </header>
+
+  <div id="menu-overlay" class="fixed inset-0 bg-alabaster z-40 flex flex-col justify-center px-6 md:px-24">
+    <div class="max-w-7xl w-full mx-auto grid md:grid-cols-2 gap-12 items-center">
+      <nav class="flex flex-col gap-6">
+        <a href="#filosofia" class="menu-link display-text text-6xl md:text-[7rem] text-noir hover:text-terracotta hover:italic transition-all w-max">Filosofía</a>
+        <a href="#especialidades" class="menu-link display-text text-6xl md:text-[7rem] text-noir hover:text-terracotta hover:italic transition-all w-max">Especialidades</a>
+        <a href="#obras" class="menu-link display-text text-6xl md:text-[7rem] text-noir hover:text-terracotta hover:italic transition-all w-max">Obras</a>
+        <a href="#contacto" class="menu-link display-text text-6xl md:text-[7rem] text-noir hover:text-terracotta hover:italic transition-all w-max">Contacto</a>
+      </nav>
+      <div class="hidden md:flex flex-col justify-end h-full pb-20 border-l border-gray-300 pl-12">
+        <p class="text-xs tracking-[0.2em] uppercase text-gray-500 mb-4">Sede Principal</p>
+        <p class="text-noir font-medium text-lg">Blvd. Kino, Zona Hotelera<br>Hermosillo, Sonora.</p>
+        <a href="mailto:proyectos@vertice.mx" class="mt-8 text-2xl font-serif text-terracotta hover:text-noir transition-colors">proyectos@vertice.mx</a>
+      </div>
+    </div>
+  </div>
+
+  <section class="relative h-screen w-full overflow-hidden flex items-end pb-20 px-6 md:px-12">
+    <div class="absolute inset-0 z-0 bg-noir">
+      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="Arquitectura Brutalista" class="w-full h-full object-cover opacity-50 hero-bg-anim">
+      <div class="absolute inset-0 bg-gradient-to-t from-noir via-noir/40 to-transparent"></div>
+    </div>
+
+    <div class="relative z-10 max-w-6xl w-full mx-auto grid md:grid-cols-12 gap-8 items-end">
+      <div class="md:col-span-8">
+        <h1 class="display-text text-6xl md:text-[8.5rem] text-alabaster fade-up-single is-visible text-balance mb-6">
+          Solidez que <span class="italic text-terracotta">trasciende.</span>
+        </h1>
+      </div>
+      <div class="md:col-span-4 pb-4 md:pb-8 fade-up-stagger is-visible">
+        <p class="text-terracotta text-[0.65rem] tracking-[0.3em] uppercase mb-4">Ingeniería & Diseño Mayor</p>
+        <p class="text-gray-400 font-light text-sm md:text-base leading-relaxed">
+          Ejecutamos proyectos de alta complejidad estructural y estética impecable. Del sector industrial al residencial premium.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="filosofia" class="py-32 px-6 md:px-12 bg-noir relative">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-12 gap-16">
+      <div class="lg:col-span-4">
+        <p class="text-[0.65rem] tracking-[0.2em] text-terracotta uppercase sticky top-32 fade-up-single">01. Nuestra Visión</p>
+      </div>
+      <div class="lg:col-span-8">
+        <h2 class="display-text text-4xl md:text-6xl text-alabaster leading-tight mb-16 fade-up-single text-balance">
+          No concebimos la construcción como un oficio, sino como el acto de materializar el progreso. Cada varilla, cada trazo, tiene un propósito exacto.
+        </h2>
+        
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-12 border-t border-gray-800 pt-16 fade-up-stagger">
+          <div>
+            <p class="display-text text-6xl md:text-7xl text-alabaster mb-2">15<span class="text-terracotta">+</span></p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Años de Expertise</p>
+          </div>
+          <div>
+            <p class="display-text text-6xl md:text-7xl text-alabaster mb-2">80<span class="text-terracotta">+</span></p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Obras Entregadas</p>
+          </div>
+          <div class="col-span-2 md:col-span-1">
+            <p class="display-text text-6xl md:text-7xl text-alabaster mb-2">100<span class="text-terracotta">%</span></p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Rigor Estructural</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="especialidades" class="py-32 bg-graphite relative">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <div class="mb-20">
+        <p class="text-[0.65rem] tracking-[0.2em] text-terracotta uppercase fade-up-single">02. Capacidad Operativa</p>
+      </div>
+
+      <div class="flex flex-col w-full" id="services-list">
+        <div class="service-item py-10 md:py-16 flex flex-col md:flex-row md:items-center justify-between cursor-pointer" 
+             data-img="https://images.unsplash.com/photo-1587293852726-70cdb56c2836?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80">
+          <h3 class="service-title display-text text-5xl md:text-7xl text-alabaster relative z-10">Sector Industrial</h3>
+          <p class="text-gray-400 max-w-sm mt-6 md:mt-0 text-sm font-light relative z-10 md:text-right">Naves de gran claro, bodegas logísticas y terracería masiva con especificaciones internacionales.</p>
+        </div>
+        
+        <div class="service-item py-10 md:py-16 flex flex-col md:flex-row md:items-center justify-between cursor-pointer"
+             data-img="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80">
+          <h3 class="service-title display-text text-5xl md:text-7xl text-alabaster relative z-10">Desarrollo Comercial</h3>
+          <p class="text-gray-400 max-w-sm mt-6 md:mt-0 text-sm font-light relative z-10 md:text-right">Torres corporativas, usos mixtos y retail con acabados de primera línea y eficiencia energética.</p>
+        </div>
+
+        <div class="service-item py-10 md:py-16 flex flex-col md:flex-row md:items-center justify-between cursor-pointer"
+             data-img="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80">
+          <h3 class="service-title display-text text-5xl md:text-7xl text-alabaster relative z-10">Residencial Premium</h3>
+          <p class="text-gray-400 max-w-sm mt-6 md:mt-0 text-sm font-light relative z-10 md:text-right">Arquitectura de autor, villas de lujo y condominios exclusivos diseñados a la medida del cliente.</p>
+        </div>
+
+        <div class="service-item py-10 md:py-16 flex flex-col md:flex-row md:items-center justify-between cursor-pointer"
+             data-img="https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80">
+          <h3 class="service-title display-text text-5xl md:text-7xl text-alabaster relative z-10">Obra Civil Mayor</h3>
+          <p class="text-gray-400 max-w-sm mt-6 md:mt-0 text-sm font-light relative z-10 md:text-right">Cimentaciones profundas, pavimentación hidráulica e infraestructura vial de alta resistencia.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="obras" class="py-32 px-6 md:px-12 bg-noir">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex justify-between items-end mb-24 fade-up-single">
+        <p class="text-[0.65rem] tracking-[0.2em] text-terracotta uppercase">03. Portafolio Selecto</p>
+        <a href="#" class="hidden md:block text-xs uppercase tracking-widest text-alabaster border-b border-gray-700 pb-1 hover:border-terracotta hover:text-terracotta transition-colors">Ver todas las obras</a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
+        <div class="md:col-span-7 group cursor-pointer fade-up-stagger">
+          <div class="overflow-hidden mb-6 bg-graphite aspect-[4/3]">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Corporativo Kino" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-1000 ease-out">
+          </div>
+          <div class="flex justify-between items-end">
+            <div>
+              <h3 class="display-text text-4xl text-alabaster mb-1 group-hover:text-terracotta transition-colors">Torre Vértice</h3>
+              <p class="text-gray-500 text-sm">Edificación Corporativa</p>
+            </div>
+            <span class="text-alabaster font-serif italic text-xl">2025</span>
+          </div>
+        </div>
+
+        <div class="hidden md:block md:col-span-1"></div>
+
+        <div class="md:col-span-4 group cursor-pointer md:mt-48 fade-up-stagger">
+          <div class="overflow-hidden mb-6 bg-graphite aspect-[3/4]">
+            <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Casa Desierto" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-1000 ease-out">
+          </div>
+          <div class="flex justify-between items-end">
+            <div>
+              <h3 class="display-text text-4xl text-alabaster mb-1 group-hover:text-terracotta transition-colors">Casa Petra</h3>
+              <p class="text-gray-500 text-sm">Residencial High-End</p>
+            </div>
+            <span class="text-alabaster font-serif italic text-xl">2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" class="pt-32 bg-graphite overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 pb-32">
+      <div class="grid lg:grid-cols-2 gap-24 items-start">
+        
+        <div class="fade-up-stagger">
+          <p class="text-[0.65rem] tracking-[0.2em] text-terracotta uppercase mb-8">04. Diálogo</p>
+          <h2 class="display-text text-6xl md:text-8xl text-alabaster leading-[0.9] mb-12 text-balance">
+            Construyamos tu próximo <span class="italic text-terracotta">legado.</span>
+          </h2>
+          
+          <div class="flex flex-col gap-8 mt-16">
+            <div class="border-l border-terracotta pl-6">
+              <p class="text-xs text-gray-500 uppercase tracking-widest mb-2">Despacho Central</p>
+              <p class="text-alabaster text-lg">Blvd. Francisco Eusebio Kino<br>Zona Hotelera, Hermosillo, Sonora.</p>
+            </div>
+            <div class="border-l border-terracotta pl-6">
+              <p class="text-xs text-gray-500 uppercase tracking-widest mb-2">Contacto Directo</p>
+              <a href="mailto:cotizaciones@vertice.mx" class="block text-alabaster text-2xl font-serif italic hover:text-terracotta transition-colors mb-1">cotizaciones@vertice.mx</a>
+              <a href="tel:+526621234567" class="block text-alabaster text-lg hover:text-terracotta transition-colors">+52 (662) 123-4567</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-noir p-8 md:p-12 fade-up-stagger">
+          <form id="premium-form">
+            <div class="input-group">
+              <input type="text" id="nombre" class="input-field" required autocomplete="off">
+              <label for="nombre" class="input-label">Nombre Completo o Empresa</label>
+            </div>
+            
+            <div class="input-group">
+              <input type="email" id="correo" class="input-field" required autocomplete="off">
+              <label for="correo" class="input-label">Correo Electrónico</label>
+            </div>
+            
+            <div class="input-group">
+              <input type="text" id="telefono" class="input-field" required autocomplete="off">
+              <label for="telefono" class="input-label">Teléfono de Contacto</label>
+            </div>
+            
+            <div class="input-group mt-12">
+              <textarea id="detalles" rows="1" class="input-field resize-none" required autocomplete="off" style="min-height: 40px;"></textarea>
+              <label for="detalles" class="input-label">Describe brevemente tu proyecto</label>
+            </div>
+
+            <button type="submit" class="mt-8 w-full py-5 bg-alabaster text-noir text-xs tracking-[0.2em] uppercase font-semibold hover:bg-terracotta hover:text-alabaster transition-colors duration-300">
+              Solicitar Propuesta
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full flex justify-center pb-8 px-6 overflow-hidden">
+      <h2 class="display-text footer-huge uppercase text-center w-full select-none cursor-default text-balance">
+        Vértice
+      </h2>
+    </div>
+
+    <div class="border-t border-gray-800 py-6 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4 bg-noir">
+      <p class="text-[0.65rem] text-gray-500 tracking-widest uppercase">© 2026 Vértice Arquitectura. Hermosillo, Son.</p>
+      <div class="flex gap-8">
+        <a href="#" class="text-[0.65rem] text-gray-500 hover:text-alabaster tracking-widest uppercase transition-colors">Instagram</a>
+        <a href="#" class="text-[0.65rem] text-gray-500 hover:text-alabaster tracking-widest uppercase transition-colors">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      
+      const menuBtn = document.getElementById('menu-toggle');
+      const menuOverlay = document.getElementById('menu-overlay');
+      const menuLinks = document.querySelectorAll('.menu-link');
+      const btnText = menuBtn.querySelector('span');
+
+      const toggleMenu = () => {
+        menuOverlay.classList.toggle('open');
+        const isOpen = menuOverlay.classList.contains('open');
+        btnText.textContent = isOpen ? 'Cerrar' : 'Menú';
+        btnText.style.color = isOpen ? '#0a0a0a' : '';
+        
+        const lines = menuBtn.querySelectorAll('div > span');
+        lines.forEach(line => {
+          line.style.backgroundColor = isOpen ? '#0a0a0a' : '';
+        });
+        
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+      };
+
+      menuBtn.addEventListener('click', toggleMenu);
+      menuLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+      // FIX: Añadida la clase fade-up-single al observador
+      const observerOptions = { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.1 };
+      
+      const scrollObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('.reveal-mask, .fade-up-stagger, .fade-up-single').forEach(el => {
+        scrollObserver.observe(el);
+      });
+
+      const serviceItems = document.querySelectorAll('.service-item');
+      const cursorFollower = document.getElementById('cursor-follower');
+      const cursorImg = document.getElementById('cursor-img');
+      const servicesSection = document.getElementById('services-list');
+
+      let mouseX = 0, mouseY = 0;
+      let followerX = 0, followerY = 0;
+      
+      servicesSection.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      const animateFollower = () => {
+        followerX += (mouseX - followerX) * 0.1;
+        followerY += (mouseY - followerY) * 0.1;
+        
+        cursorFollower.style.left = `${followerX}px`;
+        cursorFollower.style.top = `${followerY}px`;
+        
+        requestAnimationFrame(animateFollower);
+      };
+      animateFollower();
+
+      serviceItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+          const imgSrc = item.getAttribute('data-img');
+          cursorImg.src = imgSrc;
+          cursorFollower.classList.add('active');
+        });
+        
+        item.addEventListener('mouseleave', () => {
+          cursorFollower.classList.remove('active');
+        });
+      });
+
+      const textarea = document.getElementById('detalles');
+      textarea.addEventListener('input', function() {
+        this.style.height = '40px';
+        this.style.height = (this.scrollHeight) + 'px';
+      });
+
+      document.getElementById('premium-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const btn = e.target.querySelector('button');
+        const originalText = btn.textContent;
+        
+        btn.textContent = 'Procesando...';
+        
+        setTimeout(() => {
+          btn.textContent = 'Propuesta Solicitada ✓';
+          btn.classList.replace('bg-alabaster', 'bg-terracotta');
+          btn.classList.replace('text-noir', 'text-alabaster');
+          e.target.reset();
+          textarea.style.height = '40px'; 
+          
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.classList.replace('bg-terracotta', 'bg-alabaster');
+            btn.classList.replace('text-alabaster', 'text-noir');
+          }, 3000);
+        }, 1500);
+      });
+    });
+  </script>
+</body>
+</html>
