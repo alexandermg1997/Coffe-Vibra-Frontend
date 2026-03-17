@@ -25,9 +25,8 @@ jobs:
           port: 22
           debug: true
           script_stop: true
-          fingerprint: ${{ secrets.SSH_FINGERPRINT }}
           script: |
             cd /home/Coffe-Vibra-Frontend
             git checkout index.html
             git pull origin main
-            echo "¡Despliegue de Coffe completado!"
+            echo "¡Despliegue de Coffe completado, asere!"
