@@ -178,9 +178,16 @@
         const INITIAL_PRODUCTS = [
             { name: "Espresso Nitro", price: 55, category: "hot", description: "Infusión intensa con micro-burbujas de nitrógeno.", image: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80" },
             { name: "Vibra Cappuccino", price: 70, category: "hot", description: "Espuma densa, arte latte y polvo de cacao.", image: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=600&q=80" },
+            { name: "Flat White Vibe", price: 65, category: "hot", description: "Doble ristretto con leche microespumada.", image: "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=600&q=80" },
+            { name: "Cold Brew Tónica", price: 75, category: "cold", description: "Cold brew 18h con tónica y rodaja de limón.", image: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80" },
             { name: "Iced Matcha 2.0", price: 85, category: "cold", description: "Matcha ceremonial grado A con leche de avena.", image: "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=600&q=80" },
+            { name: "Frappé Caramelo", price: 90, category: "cold", description: "Café batido con hielo, crema y caramelo salado.", image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=600&q=80" },
             { name: "Avocado Toast", price: 130, category: "food", description: "Pan masa madre, aguacate hass, semillas.", image: "https://images.unsplash.com/photo-1588137372308-15f75323ca8d?auto=format&fit=crop&w=600&q=80" },
+            { name: "Club Sándwich Artesanal", price: 145, category: "food", description: "Pollo, tocino, huevo y papas gajo.", image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=600&q=80" },
+            { name: "Croissant Jamón Queso", price: 85, category: "food", description: "Croissant hojaldrado con jamón serrano y gruyère.", image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80" },
             { name: "Berry Tart", price: 95, category: "dessert", description: "Base de almendra y frutos del bosque frescos.", image: "https://images.unsplash.com/photo-1519915093150-5d85d952af52?auto=format&fit=crop&w=600&q=80" },
+            { name: "Cheesecake Frutos Rojos", price: 110, category: "dessert", description: "New York style con coulis de frutos rojos.", image: "https://images.unsplash.com/photo-1524351199678-941a58a3df50?auto=format&fit=crop&w=600&q=80" },
+            { name: "Brownie Gelato", price: 100, category: "dessert", description: "Brownie tibio con helado de vainilla bourbon.", image: "https://images.unsplash.com/photo-1607920591413-4ec007e70023?auto=format&fit=crop&w=600&q=80" },
         ];
 
         const AdminPIN = "1234";
@@ -264,7 +271,7 @@
         // --- Main App Component ---
 
         const App = () => {
-            const [products, setProducts] = React.useState([]);
+            const [products, setProducts] = React.useState(INITIAL_PRODUCTS);
             const [loading, setLoading] = React.useState(true);
             const [activeCategory, setActiveCategory] = React.useState('hot');
             const [view, setView] = React.useState('home');
